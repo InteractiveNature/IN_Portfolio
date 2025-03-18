@@ -1,0 +1,376 @@
+/* Main CSS File - Core styles and variables */
+
+/* CSS Variables */
+:root {
+    /* Color Scheme */
+    --primary: #0a0a0a;
+    --secondary: #f2f2f2;
+    --text: #f2f2f2;
+    --text-dark: #0a0a0a;
+    
+    /* Gradient Colors */
+    --gradient-color-1: #C4D4DB;
+    --gradient-color-2: #9AC2C9;
+    --gradient-color-3: #B19CD9;
+    --gradient-color-4: #93B5C6;
+    --gradient-color-5: #BFD8BD;
+    
+    /* Spacings */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 4rem;
+    --spacing-xxl: 8rem;
+    
+    /* Typography */
+    --font-family: 'Space Grotesk', sans-serif;
+    --font-size-xs: 0.8rem;
+    --font-size-sm: 0.9rem;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.2rem;
+    --font-size-xl: 1.5rem;
+    --font-size-2xl: 2.5rem;
+    --font-size-3xl: 3rem;
+    --font-size-4xl: 5vw;
+    
+    /* Animations */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* Layout */
+    --container-width: 1400px;
+    --border-radius: 8px;
+    
+    /* Custom Properties for Animations */
+    --accent-angle: 0deg;
+    --gradient-position: 50%;
+}
+
+/* CSS Property Definitions */
+@property --accent-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@property --gradient-position {
+    syntax: '<percentage>';
+    initial-value: 50%;
+    inherits: false;
+}
+
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--primary);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+a {
+    text-decoration: none;
+    color: var(--text);
+    transition: var(--transition-normal);
+}
+
+/* Common Components */
+.section-header {
+    margin-bottom: var(--spacing-xl);
+    position: relative;
+}
+
+.section-header h2 {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--spacing-sm);
+}
+
+.section-header p {
+    font-size: var(--font-size-lg);
+    max-width: 600px;
+    opacity: 0.8;
+}
+
+/* Common button styles */
+.cta-button {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 0;
+    transition: var(--transition-normal);
+    border: 1px solid transparent;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(
+        90deg, 
+        var(--gradient-color-1), 
+        var(--gradient-color-2) var(--gradient-position), 
+        var(--gradient-color-3), 
+        var(--gradient-color-4), 
+        var(--gradient-color-5)
+    );
+    background-size: 300% 100%;
+    background-position-x: var(--gradient-position);
+}
+
+.cta-button:hover {
+    background: transparent;
+    border: 1px solid var(--gradient-color-1);
+    color: var(--gradient-color-1);
+}
+
+.cta-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg, 
+        var(--gradient-color-1), 
+        var(--gradient-color-2) var(--gradient-position), 
+        var(--gradient-color-3), 
+        var(--gradient-color-4), 
+        var(--gradient-color-5)
+    );
+    background-size: 300% 100%;
+    background-position-x: var(--gradient-position);
+    z-index: -1;
+    transition: opacity var(--transition-normal);
+}
+
+.cta-button:hover::before {
+    opacity: 0;
+}
+
+/* Custom cursor */
+.cursor {
+    position: fixed;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(
+        90deg, 
+        var(--gradient-color-1), 
+        var(--gradient-color-2) var(--gradient-position), 
+        var(--gradient-color-3), 
+        var(--gradient-color-4), 
+        var(--gradient-color-5)
+    );
+    background-size: 300% 100%;
+    background-position-x: var(--gradient-position);
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transition: transform var(--transition-fast);
+}
+
+.cursor.grow {
+    transform: scale(3);
+    mix-blend-mode: difference;
+}
+
+/* Background grid */
+.bg-lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+.bg-lines line {
+    stroke: var(--text);
+}
+
+/* Header and Navigation */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-lg);
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    top: 0;
+    left: 0;
+}
+
+.logo {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+.logo span {
+    background: linear-gradient(
+        90deg, 
+        var(--gradient-color-1), 
+        var(--gradient-color-2) var(--gradient-position), 
+        var(--gradient-color-3), 
+        var(--gradient-color-4), 
+        var(--gradient-color-5)
+    );
+    background-size: 300% 100%;
+    background-position-x: var(--gradient-position);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: var(--spacing-lg);
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 500;
+    position: relative;
+    padding: var(--spacing-xs) 0;
+    transition: var(--transition-normal);
+}
+
+nav a:hover {
+    background: linear-gradient(
+        90deg, 
+        var(--gradient-color-1), 
+        var(--gradient-color-2) var(--gradient-position), 
+        var(--gradient-color-3), 
+        var(--gradient-color-4), 
+        var(--gradient-color-5)
+    );
+    background-size: 300% 100%;
+    background-position-x: var(--gradient-position);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(
+        90deg, 
+        var(--gradient-color-1), 
+        var(--gradient-color-2) var(--gradient-position), 
+        var(--gradient-color-3), 
+        var(--gradient-color-4), 
+        var(--gradient-color-5)
+    );
+    background-size: 300% 100%;
+    background-position-x: var(--gradient-position);
+    transition: width var(--transition-normal);
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* Footer */
+footer {
+    padding: var(--spacing-xl) 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+}
+
+footer p {
+    opacity: 0.6;
+    font-size: var(--font-size-sm);
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+}
+
+.footer-links a {
+    color: var(--text);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity var(--transition-normal);
+}
+
+.footer-links a:hover {
+    opacity: 1;
+    background: linear-gradient(
+        90deg, 
+        var(--gradient-color-1), 
+        var(--gradient-color-2) var(--gradient-position), 
+        var(--gradient-color-3), 
+        var(--gradient-color-4), 
+        var(--gradient-color-5)
+    );
+    background-size: 300% 100%;
+    background-position-x: var(--gradient-position);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Theme Selector */
+.theme-selector {
+    position: fixed;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.5);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    backdrop-filter: blur(5px);
+}
+
+.theme-selector select {
+    background: var(--primary);
+    color: var(--text);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.3rem;
+    border-radius: var(--border-radius);
+    font-family: var(--font-family);
+    cursor: pointer;
+}
+
+.theme-selector span {
+    font-size: var(--font-size-sm);
+    opacity: 0.8;
+}

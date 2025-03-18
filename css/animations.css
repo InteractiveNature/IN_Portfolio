@@ -1,0 +1,144 @@
+/* Animations CSS - All animations and keyframes */
+
+/* Logo animation */
+@keyframes rotate-accent {
+    0% {
+        --accent-angle: 0deg;
+    }
+    100% {
+        --accent-angle: 360deg;
+    }
+}
+
+/* Client logo scrolling animation */
+@keyframes scrollLogos {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Floating work items animations */
+@keyframes floatX {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(var(--float-x-1)); }
+    50% { transform: translateX(var(--float-x-2)); }
+    75% { transform: translateX(var(--float-x-3)); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes floatY {
+    0% { transform: translateY(0); }
+    33% { transform: translateY(var(--float-y-1)); }
+    66% { transform: translateY(var(--float-y-2)); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes rotateZ {
+    0% { transform: rotateZ(0); }
+    25% { transform: rotateZ(var(--rotate-z-1)); }
+    75% { transform: rotateZ(var(--rotate-z-2)); }
+    100% { transform: rotateZ(0); }
+}
+
+@keyframes subtleScale {
+    0% { transform: scale(1); }
+    50% { transform: scale(var(--scale)); }
+    100% { transform: scale(1); }
+}
+
+/* Fade-in animation for sections */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Gradient animation for buttons */
+@keyframes gradientFlow {
+    0% {
+        background-position-x: 0%;
+    }
+    100% {
+        background-position-x: 100%;
+    }
+}
+
+/* Pulse animation for the logo */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Staggered element animations */
+.animate-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s ease forwards;
+}
+
+.stagger-delay-1 {
+    animation-delay: 0.1s;
+}
+
+.stagger-delay-2 {
+    animation-delay: 0.2s;
+}
+
+.stagger-delay-3 {
+    animation-delay: 0.3s;
+}
+
+.stagger-delay-4 {
+    animation-delay: 0.4s;
+}
+
+.stagger-delay-5 {
+    animation-delay: 0.5s;
+}
+
+/* Hover animations for interactive elements */
+.hover-lift {
+    transition: transform var(--transition-normal);
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+}
+
+.hover-grow {
+    transition: transform var(--transition-normal);
+}
+
+.hover-grow:hover {
+    transform: scale(1.05);
+}
+
+/* Loading animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading {
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top: 3px solid var(--gradient-color-3);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+}
