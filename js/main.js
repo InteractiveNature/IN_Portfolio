@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     themeManager.initFromSavedPreference();
     
     // Add theme selector to header
-    const header = document.querySelector('header');
-    addThemeSelector(header, themeManager);
+   // const header = document.querySelector('header');
+    //addThemeSelector(header, themeManager);
     
     // Initialize visual effects
     if (effectsConfig.cursor.enabled) {
@@ -55,11 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function addThemeSelector(container, themeManager) {
     if (!container) return;
     
-    // Create a center container
-    const centerContainer = document.createElement('div');
-    centerContainer.className = 'header-center';
-    
-    // Create the theme selector
     const themeSelector = document.createElement('div');
     themeSelector.className = 'theme-selector';
     
@@ -76,27 +71,6 @@ function addThemeSelector(container, themeManager) {
         select.appendChild(option);
     });
     
-    select.addEventListener('change', e => {
-        themeManager.applyTheme(e.target.value);
-    });
-    
-    themeSelector.appendChild(label);
-    themeSelector.appendChild(select);
-    
-    // Add to center container
-    centerContainer.appendChild(themeSelector);
-    
-    // Insert center container between logo and nav
-    const logo = container.querySelector('.logo');
-    const nav = container.querySelector('nav');
-    
-    if (logo && nav) {
-        container.insertBefore(centerContainer, nav);
-    } else {
-        container.appendChild(centerContainer);
-    }
-}
-{    
     select.addEventListener('change', e => {
         themeManager.applyTheme(e.target.value);
     });

@@ -67,22 +67,6 @@ export const themes = {
                 '#92B4A7'
             ]
         }
-    },
-    light: {
-        name: 'Light',
-        colors: {
-            primary: '#ffffff',      // White background
-            secondary: '#f8f9fa',    // Light gray secondary
-            text: '#212529',         // Dark text for contrast
-            textDark: '#000000',     // Black text for buttons etc.
-            gradientColors: [
-                '#6366F1',  // Indigo
-                '#8B5CF6',  // Purple
-                '#EC4899',  // Pink
-                '#F43F5E',  // Rose
-                '#3B82F6'   // Blue
-            ]
-        }
     }
 };
 

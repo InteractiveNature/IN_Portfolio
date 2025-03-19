@@ -12,7 +12,7 @@ export class Background {
             selector: '.bg-lines',
             numLines: 10,
             opacity: 0.1,
-            lineColor: '#ffffff',
+            lineColor: '#e60000',
             distortionFactor: 100,
             enabled: true,
             ...options
