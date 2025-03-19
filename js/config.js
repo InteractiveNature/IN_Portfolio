@@ -34,22 +34,22 @@ export const servicesConfig = {
         {
             title: 'Technical Event Production',
             description: 'Comprehensive technical drafting and production services for events of any scale. From initial concept to final execution, we ensure your event space is meticulously planned and perfectly realized.',
-            learnMoreLink: '#technical-production'
+            learnMoreLink: 'services/technical-event-production.html'
         },
         {
             title: 'Interactive Installations',
             description: 'Custom-designed interactive environments that respond to human presence and movement. We create memorable experiences through responsive projection art, sensor-based interactions, and immersive audio-visual elements.',
-            learnMoreLink: '#interactive-installations'
+            learnMoreLink: 'services/interactive-installations.html'
         },
         {
             title: 'Digital Environment Design',
             description: 'Virtual production environments, 3D visualizations, and pre-visualization services that bring digital worlds to life for film, events, and architectural presentations.',
-            learnMoreLink: '#digital-environment'
+            learnMoreLink: 'services/digital-environment-design.html'
         },
         {
             title: 'Projection Mapping & Art',
             description: 'Transform any surface into a canvas for dynamic visual storytelling. Our audio-reactive projection art creates immersive environments that respond to sound and music in real-time.',
-            learnMoreLink: '#projection-mapping'
+            learnMoreLink: 'services/projection-mapping-art.html'
         }
     ]
 };

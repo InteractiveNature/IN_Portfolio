@@ -132,7 +132,7 @@ export class WorkItemManager {
         });
     }
     
-    /**
+/**
  * Add a new work item with a link to its project page
  * @param {Object} workConfig - Work item configuration
  * @returns {HTMLElement} - The created work item element
@@ -169,7 +169,7 @@ addWorkItem(workConfig) {
     });
     
     return itemElement;
-}
+}z
     
     /**
      * Remove a work item
