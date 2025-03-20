@@ -2,6 +2,9 @@
 
 /* CSS Variables */
 :root {
+
+    --font-family: 'Franklin Gothic Demi', Arial, sans-serif;
+
     /* Color Scheme */
     --primary: #0a0a0a;
     --secondary: #f2f2f2;
@@ -48,6 +51,14 @@
     --gradient-position: 50%;
 }
 
+@font-face {
+    font-family: 'Franklin Gothic Demi';
+    src: url('../assets/fonts/franklingothic_demi.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
 /* CSS Property Definitions */
 @property --accent-angle {
     syntax: '<angle>';
@@ -70,7 +81,7 @@
 }
 
 body {
-    font-family: var(--font-family);
+    font-family: 'Franklin Gothic Demi', Arial, sans-serif;
     background-color: var(--primary);
     color: var(--text);
     overflow-x: hidden;
