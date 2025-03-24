@@ -15,6 +15,48 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
+    
+    <style>
+        /* Inline logo animation to ensure it's defined */
+        @keyframes logoWarp {
+            0% {
+                transform: scale(1, 1) rotate(0deg);
+            }
+            20% {
+                transform: scale(1.02, 0.98) rotate(1.5deg);
+            }
+            40% {
+                transform: scale(0.99, 1.01) rotate(3deg);
+            }
+            60% {
+                transform: scale(1.01, 0.99) rotate(0deg);
+            }
+            80% {
+                transform: scale(0.98, 1.02) rotate(-2deg);
+            }
+            100% {
+                transform: scale(1, 1) rotate(0deg);
+            }
+        }
+        
+        .logo img {
+            transform-origin: center center;
+            animation: logoWarp 15s ease-in-out infinite;
+            will-change: transform;
+        }
+        
+        /* Pause animation on hover for accessibility */
+        .logo:hover img {
+            animation-play-state: paused;
+        }
+        
+        /* Reduce motion for users who prefer reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .logo img {
+                animation: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="cursor"></div>
@@ -39,7 +81,7 @@
     <header>
         <div class="logo">
             <a href="index.html">
-                <img src="assets/images/InteractiveNatureLogo.png" alt="Interactive Nature Logo">
+                <img src="assets/images/InteractiveNatureLogo.png" alt="Interactive Nature Logo" style="animation: logoWarp 15s ease-in-out infinite; transform-origin: center center;">
             </a>
         </div>
         <nav>

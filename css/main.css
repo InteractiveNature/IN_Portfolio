@@ -259,6 +259,21 @@ header {
     height: 100px; /* Adjust based on your preferred logo size */
     width: auto;
     display: block;
+    transform-origin: center center;
+    animation: logoWarp 8s ease-in-out infinite;
+    will-change: transform;
+}
+
+/* Pause animation on hover for accessibility */
+.logo:hover img {
+    animation-play-state: paused;
+}
+
+/* Reduce motion for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .logo img {
+        animation: none;
+    }
 }
 
 nav ul {

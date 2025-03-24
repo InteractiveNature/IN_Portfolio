@@ -25,6 +25,17 @@ export class Background {
         this.windowWidth = window.innerWidth;
         this.windowHeight = window.innerHeight;
         this.animationFrame = null;
+        
+        // Calculate horizontal lines based on aspect ratio to create squares
+        this.horizontalLines = this.calculateHorizontalLines();
+    }
+    
+    /**
+     * Calculate the number of horizontal lines needed to create square cells
+     * @returns {number} - Number of horizontal lines
+     */
+    calculateHorizontalLines() {
+        return Math.round(this.options.numLines * (this.windowHeight / this.windowWidth));
     }
     
     /**
@@ -57,10 +68,10 @@ export class Background {
         
         const { numLines, lineColor } = this.options;
         
-        // Create horizontal lines
-        for (let i = 0; i < numLines; i++) {
+        // Create horizontal lines - using calculated horizontalLines for square cells
+        for (let i = 0; i < this.horizontalLines; i++) {
             const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            const yPos = (i / numLines) * 100 + '%';
+            const yPos = (i / this.horizontalLines) * 100 + '%';
             
             line.setAttribute('x1', '0%');
             line.setAttribute('y1', yPos);
@@ -73,7 +84,7 @@ export class Background {
             this.lines.push(line);
         }
         
-        // Create vertical lines
+        // Create vertical lines - using original numLines
         for (let i = 0; i < numLines; i++) {
             const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
             const xPos = (i / numLines) * 100 + '%';
@@ -124,6 +135,12 @@ export class Background {
     handleResize() {
         this.windowWidth = window.innerWidth;
         this.windowHeight = window.innerHeight;
+        
+        // Recalculate horizontal lines when window is resized
+        this.horizontalLines = this.calculateHorizontalLines();
+        
+        // Recreate the grid with the new dimensions
+        this.createBackgroundLines();
     }
     
     /**
@@ -146,13 +163,15 @@ export class Background {
             
             // Apply different distortion to horizontal and vertical lines
             if (line.getAttribute('y1') === line.getAttribute('y2')) {
-                // Horizontal line
-                line.setAttribute('y1', `calc(${(index % numLines) / numLines * 100}% + ${distortionY * Math.sin(index / numLines * Math.PI)}px)`);
-                line.setAttribute('y2', `calc(${(index % numLines) / numLines * 100}% + ${distortionY * Math.sin(index / numLines * Math.PI)}px)`);
+                // Horizontal line - use horizontalLines for calculation
+                const lineIndex = index % this.horizontalLines;
+                line.setAttribute('y1', `calc(${lineIndex / this.horizontalLines * 100}% + ${distortionY * Math.sin(lineIndex / this.horizontalLines * Math.PI)}px)`);
+                line.setAttribute('y2', `calc(${lineIndex / this.horizontalLines * 100}% + ${distortionY * Math.sin(lineIndex / this.horizontalLines * Math.PI)}px)`);
             } else {
-                // Vertical line
-                line.setAttribute('x1', `calc(${(index % numLines) / numLines * 100}% + ${distortionX * Math.sin(index / numLines * Math.PI)}px)`);
-                line.setAttribute('x2', `calc(${(index % numLines) / numLines * 100}% + ${distortionX * Math.sin(index / numLines * Math.PI)}px)`);
+                // Vertical line - use numLines for calculation
+                const lineIndex = index % numLines;
+                line.setAttribute('x1', `calc(${lineIndex / numLines * 100}% + ${distortionX * Math.sin(lineIndex / numLines * Math.PI)}px)`);
+                line.setAttribute('x2', `calc(${lineIndex / numLines * 100}% + ${distortionX * Math.sin(lineIndex / numLines * Math.PI)}px)`);
             }
         });
     }
