@@ -13,7 +13,7 @@ export class Background {
             numLines: 40,
             opacity: 0.2,
             lineColor: '#e60000',
-            distortionFactor: 400,
+            distortionFactor: 90,
             enabled: true,
             ...options
         };
@@ -67,7 +67,7 @@ export class Background {
             line.setAttribute('x2', '100%');
             line.setAttribute('y2', yPos);
             line.setAttribute('stroke', lineColor);
-            line.setAttribute('stroke-width', '1');
+            line.setAttribute('stroke-width', '2');
             
             this.svg.appendChild(line);
             this.lines.push(line);

@@ -59,7 +59,15 @@
     font-weight: normal;
     font-style: normal;
     font-display: swap;
-  }
+}
+
+@font-face {
+    font-family: 'FunnelDisplay-Light';
+    src: url("../assets/fonts/FunnelDisplay-Light.ttf");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
 
 /* CSS Property Definitions */
 @property --accent-angle {
@@ -215,7 +223,7 @@ a {
     width: 100vw;
     height: 100vh;
     z-index: -1;
-    opacity: 0.1;
+    opacity: 0.2;
     pointer-events: none;
 }
 

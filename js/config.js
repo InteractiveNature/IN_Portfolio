@@ -223,8 +223,8 @@ export const effectsConfig = {
     backgroundGrid: {
         enabled: true,
         numLines: 50,
-        opacity: 0.1,
-        distortionFactor: 50
+        opacity: 0.2,
+        distortionFactor: 90
     },
     workItems: {
         // The key change: Disable floating and mouse interaction temporarily
