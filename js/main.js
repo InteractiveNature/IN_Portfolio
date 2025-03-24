@@ -5,6 +5,7 @@
 // Import modules
 import { Cursor } from './effects/cursor.js';
 import { Background } from './effects/background.js';
+import { VideoBackground } from './effects/video-background.js';
 import { WorkItemManager } from './components/WorkItemManager.js';
 import { ServicesManager } from './components/ServicesManager.js';
 import { ClientsManager } from './components/ClientsManager.js';
@@ -35,6 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (effectsConfig.backgroundGrid.enabled) {
         const background = new Background(effectsConfig.backgroundGrid);
         background.init();
+    }
+    
+    if (effectsConfig.videoBackground.enabled) {
+        const videoBackground = new VideoBackground(effectsConfig.videoBackground);
+        videoBackground.init();
     }
     
     // Initialize components

@@ -226,6 +226,15 @@ export const effectsConfig = {
         opacity: 0.2,
         distortionFactor: 90
     },
+    videoBackground: {
+        enabled: true,
+        selector: '.video-background video',
+        muted: true,
+        autoplay: true,
+        loop: true,
+        playbackRate: 0.8, // Slightly slower for better visual effect
+        opacity: 0.7
+    },
     workItems: {
         // The key change: Disable floating and mouse interaction temporarily
         floatingEnabled: true,

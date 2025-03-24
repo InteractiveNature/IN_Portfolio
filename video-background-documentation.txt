@@ -1,0 +1,157 @@
+# Video Background Documentation
+
+## Overview
+This document provides instructions for managing the video background feature on the Interactive Nature website. The video background appears behind the grid effect in the hero section of the homepage.
+
+## Changing the Video Source
+
+### Step 1: Prepare Your Video File
+- Place your new video file in the `assets/videos/` directory
+- Recommended format: MP4 (H.264 codec)
+- Optimize your video for web (compress to reduce file size)
+- Ideal resolution: 1920x1080 or higher
+- Keep duration short (10-30 seconds) for better looping and performance
+
+### Step 2: Update the HTML
+1. Open `index.html`
+2. Locate the video element in the hero section:
+   ```html
+   <div class="video-background">
+       <video autoplay loop muted playsinline>
+           <source src="assets/videos/groundStarsTracking.mp4" type="video/mp4">
+       </video>
+   </div>
+   ```
+3. Change the `src` attribute to point to your new video file:
+   ```html
+   <source src="assets/videos/YOUR-NEW-VIDEO-FILENAME.mp4" type="video/mp4">
+   ```
+4. If using a different format, update the `type` attribute accordingly:
+   - MP4: `type="video/mp4"`
+   - WebM: `type="video/webm"`
+   - Ogg: `type="video/ogg"`
+
+### Step 3: For Better Browser Compatibility (Optional)
+You can provide multiple source formats:
+```html
+<video autoplay loop muted playsinline>
+    <source src="assets/videos/YOUR-VIDEO.webm" type="video/webm">
+    <source src="assets/videos/YOUR-VIDEO.mp4" type="video/mp4">
+    <source src="assets/videos/YOUR-VIDEO.ogg" type="video/ogg">
+</video>
+```
+
+## Customizing Video Appearance
+
+### Adjusting Opacity
+1. Open `js/config.js`
+2. Find the `videoBackground` section:
+   ```javascript
+   videoBackground: {
+       enabled: true,
+       selector: '.video-background video',
+       muted: true,
+       autoplay: true,
+       loop: true,
+       playbackRate: 0.8, // Slightly slower for better visual effect
+       opacity: 0.7
+   }
+   ```
+3. Change the `opacity` value (range: 0.0 to 1.0)
+   - Lower values make the video more transparent
+   - Higher values make the video more opaque
+
+### Adjusting Playback Speed
+1. In the same `videoBackground` section of `js/config.js`
+2. Change the `playbackRate` value
+   - 1.0 is normal speed
+   - Values less than 1.0 slow down the video (e.g., 0.5 is half speed)
+   - Values greater than 1.0 speed up the video (e.g., 2.0 is double speed)
+
+## Enabling/Disabling the Video Background
+
+To completely disable the video background:
+1. Open `js/config.js`
+2. Find the `videoBackground` section
+3. Change `enabled: true` to `enabled: false`
+
+## CSS Customization
+
+If you need to adjust the CSS styling:
+1. Open `css/components.css`
+2. Find the video background styles:
+   ```css
+   /* Video Background */
+   .video-background {
+       position: absolute;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       overflow: hidden;
+       z-index: -2; /* Behind grid but in front of background color */
+   }
+
+   .video-background video {
+       position: absolute;
+       top: 50%;
+       left: 50%;
+       min-width: 100%;
+       min-height: 100%;
+       width: auto;
+       height: auto;
+       transform: translateX(-50%) translateY(-50%);
+       object-fit: cover;
+       opacity: 0.7; /* Slightly transparent to blend with grid */
+   }
+   ```
+3. Modify the styles as needed
+
+## Troubleshooting
+
+### Video Not Playing
+- Ensure the video file exists in the correct location
+- Check browser console for errors
+- Make sure the video is properly encoded (H.264 for MP4)
+- Try adding the `playsinline` attribute for iOS devices
+- Some browsers block autoplay; ensure the video is muted
+
+### Performance Issues
+- Compress your video to reduce file size
+- Consider using a lower resolution
+- Shorten the video duration
+- Use the WebM format for better compression
+
+### Mobile Compatibility
+- Test on multiple devices
+- Ensure the `playsinline` attribute is present
+- Keep video files small for faster loading on mobile networks
+
+## Advanced: JavaScript Control
+
+For programmatic control of the video, you can use the VideoBackground class:
+
+```javascript
+// Get a reference to the video background instance
+const videoBackground = document.querySelector('.video-background video');
+
+// Pause the video
+videoBackground.pause();
+
+// Play the video
+videoBackground.play();
+
+// Change opacity
+videoBackground.style.opacity = 0.5;
+
+// Change playback rate
+videoBackground.playbackRate = 1.5;
+```
+
+## Files Involved in Video Background Feature
+
+- `index.html` - Contains the video element
+- `css/components.css` - Contains the video styling
+- `js/effects/video-background.js` - Contains the VideoBackground class
+- `js/config.js` - Contains the video configuration options
+- `js/main.js` - Initializes the video background
