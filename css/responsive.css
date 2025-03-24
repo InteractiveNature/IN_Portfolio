@@ -40,29 +40,54 @@
         gap: var(--spacing-lg);
     }
     
+    .work-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+    
     .work-item {
-        width: calc(50% - 2rem);
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/9;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
     }
     
-    /* Adjust work item positions for tablet */
-    .work-item:nth-child(1) {
-        top: 0;
-        left: 0;
-    }
-    
-    .work-item:nth-child(2) {
-        top: 0;
-        right: 0;
-    }
-    
-    .work-item:nth-child(3) {
-        top: 230px;
-        left: 0;
-    }
-    
+    /* Reset absolute positioning for work items */
+    .work-item:nth-child(1),
+    .work-item:nth-child(2),
+    .work-item:nth-child(3),
     .work-item:nth-child(4) {
-        top: 230px;
-        right: 0;
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+    }
+}
+
+/* Medium-sized Screens */
+@media (max-width: 850px) {
+    .work-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .work-item {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+        aspect-ratio: 16/9;
+    }
+    
+    .work-item-link {
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .work-overlay {
+        opacity: 1; /* Always show overlay on smaller screens */
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3));
     }
 }
 
@@ -98,6 +123,7 @@
         flex-direction: column;
         gap: var(--spacing-md);
         min-height: auto;
+        align-items: center;
     }
     
     .work-item {
@@ -107,6 +133,15 @@
         right: auto !important;
         top: auto !important;
         animation: none !important;
+        margin-bottom: var(--spacing-md);
+        max-width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+    }
+    
+    .work-item-link {
+        width: 100%;
+        max-width: 450px;
         margin-bottom: var(--spacing-md);
     }
     
@@ -198,6 +233,22 @@
     
     .theme-selector {
         display: none;
+    }
+    
+    .work-item-link {
+        max-width: 100%;
+    }
+    
+    .work-item {
+        aspect-ratio: 16/10; /* Slightly taller aspect ratio for very small screens */
+    }
+    
+    .work-overlay h3 {
+        font-size: var(--font-size-lg);
+    }
+    
+    .work-overlay p {
+        font-size: var(--font-size-xs);
     }
 }
 

@@ -191,6 +191,7 @@
     display: block;
     text-decoration: none;
     color: var(--text);
+    height: 100%;
 }
 
 .work-item {
@@ -202,6 +203,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.5);
     z-index: 1;
+    height: 100%;
 }
 
 .work-item-link:hover .work-item {
@@ -261,18 +263,7 @@
 }
 
 /* Add responsive adjustments */
-@media (max-width: 768px) {
-    .work-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .work-grid {
-        grid-template-columns: 1fr;
-    }
-}
+/* These media queries are now handled in responsive.css */
 
 /* Individual initial positions */
 .work-item:nth-child(1) {

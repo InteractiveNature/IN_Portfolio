@@ -81,7 +81,7 @@ export const workConfig = {
             projectUrl: 'projects/responsive-light-forest.html'
         },
         {
-            title: 'Interactive Digital Experience in Custom Arcade Booth',
+            title: 'Interactive Digital Experience Custom Prop',
             description: 'Interactive Experience and Fabrication for Event',
             imageSrc: 'assets/images/portfolio/zoltar.jpg',
             imageAlt: 'Interactive Experience for Event Fabrication',
