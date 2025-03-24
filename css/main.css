@@ -3,7 +3,9 @@
 /* CSS Variables */
 :root {
 
-    --font-family: 'Franklin Gothic Demi', Arial, sans-serif;
+    --font-family: 'FunnelDisplay-Regular', Arial, sans-serif, 'FunnelDisplay-Light';
+
+
 
     /* Color Scheme */
     --primary: #0a0a0a;
@@ -27,7 +29,7 @@
     --spacing-xxl: 8rem;
     
     /* Typography */
-    --font-family: 'Space Grotesk', sans-serif;
+    --font-family: 'FunnelDisplay-Regular', sans-serif;
     --font-size-xs: 0.8rem;
     --font-size-sm: 0.9rem;
     --font-size-md: 1rem;
@@ -52,8 +54,8 @@
 }
 
 @font-face {
-    font-family: 'Franklin Gothic Demi';
-    src: url('../assets/fonts/franklingothic_demi.ttf') format('truetype');
+    font-family: 'FunnelDisplay-Regular';
+    src: url("../assets/fonts/FunnelDisplay-Regular.ttf");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -81,7 +83,7 @@
 }
 
 body {
-    font-family: 'Franklin Gothic Demi', Arial, sans-serif;
+    font-family: 'FunnelDisplay-Regular', Arial, sans-serif;
     background-color: var(--primary);
     color: var(--text);
     overflow-x: hidden;

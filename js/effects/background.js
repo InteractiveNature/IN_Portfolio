@@ -10,10 +10,10 @@ export class Background {
     constructor(options = {}) {
         this.options = {
             selector: '.bg-lines',
-            numLines: 10,
-            opacity: 0.1,
+            numLines: 40,
+            opacity: 0.2,
             lineColor: '#e60000',
-            distortionFactor: 100,
+            distortionFactor: 400,
             enabled: true,
             ...options
         };
