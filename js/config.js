@@ -96,6 +96,11 @@ export const clientsConfig = {
     subheading: 'Trusted by innovative brands across industries',
     clients: [
         {
+            name: 'Fusebox',
+            logoSrc: 'assets/images/clients/Fusebox-Logo.png',
+            logoAlt: 'Fusebox Logo'
+        },
+        {
             name: 'WarnerBrothers',
             logoSrc: 'assets/images/clients/warner-bros-logo.png',
             logoAlt: 'WarnerBrothersLogo'

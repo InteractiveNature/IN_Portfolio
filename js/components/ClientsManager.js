@@ -67,18 +67,15 @@ export class ClientsManager {
     ensureInfiniteScroll() {
         const logoElements = this.element.querySelectorAll('img');
         
-        // Check if we need to duplicate logos
-        if (logoElements.length > 0 && logoElements.length < 10) {
-            // Calculate how many duplicates we need
-            const duplicatesNeeded = Math.ceil(10 / logoElements.length) - 1;
-            
-            // Clone the logos
-            for (let i = 0; i < duplicatesNeeded; i++) {
-                logoElements.forEach(logo => {
-                    const clone = logo.cloneNode(true);
-                    this.element.appendChild(clone);
-                });
-            }
+        // Always duplicate all logos once to create a seamless infinite scroll
+        // This ensures that when the first set of logos scrolls out of view,
+        // an identical second set is already in place, creating a smooth transition
+        if (logoElements.length > 0) {
+            // Clone all logos once
+            logoElements.forEach(logo => {
+                const clone = logo.cloneNode(true);
+                this.element.appendChild(clone);
+            });
         }
     }
     

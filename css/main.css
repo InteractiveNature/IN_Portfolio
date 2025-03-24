@@ -137,30 +137,28 @@ a {
 .cta-button {
     display: inline-block;
     padding: 0.8rem 2rem;
-    color: var(--text-dark);
+    color: var(--gradient-color-1);
     text-decoration: none;
     font-weight: 600;
     border-radius: 0;
     transition: var(--transition-normal);
-    border: 1px solid transparent;
+    background: transparent;
     position: relative;
     z-index: 1;
-    background: linear-gradient(
+    border: 1px solid;
+    border-image: linear-gradient(
         90deg, 
         var(--gradient-color-1), 
-        var(--gradient-color-2) var(--gradient-position), 
+        var(--gradient-color-2), 
         var(--gradient-color-3), 
         var(--gradient-color-4), 
         var(--gradient-color-5)
-    );
-    background-size: 300% 100%;
-    background-position-x: var(--gradient-position);
+    ) 1;
 }
 
 .cta-button:hover {
-    background: transparent;
-    border: 1px solid var(--gradient-color-1);
-    color: var(--gradient-color-1);
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(196, 212, 219, 0.5); /* Subtle glow using --gradient-color-1 */
 }
 
 .cta-button::before {
@@ -181,11 +179,12 @@ a {
     background-size: 300% 100%;
     background-position-x: var(--gradient-position);
     z-index: -1;
+    opacity: 0;
     transition: opacity var(--transition-normal);
 }
 
 .cta-button:hover::before {
-    opacity: 0;
+    opacity: 0.1; /* Very subtle background on hover */
 }
 
 /* Custom cursor */

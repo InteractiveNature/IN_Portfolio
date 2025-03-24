@@ -139,7 +139,7 @@ function initializeWorkItems() {
 function initializeClientLogos() {
     const clientsManager = new ClientsManager({
         selector: '.logo-container',
-        scrollSpeed: 30 // Adjust speed if needed (seconds)
+        scrollSpeed: 60 // Slowed down to 70% of original speed (30s)
     });
     
     // Clear existing content

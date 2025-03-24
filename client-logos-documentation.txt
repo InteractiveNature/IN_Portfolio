@@ -1,0 +1,147 @@
+# CLIENT LOGOS SCROLLING EFFECT DOCUMENTATION
+
+This document provides instructions on how to manage the scrolling client logos section of the Interactive Nature website.
+
+## TABLE OF CONTENTS
+
+1. Adding New Client Logos
+2. Removing Client Logos
+3. Editing Existing Client Logos
+4. Adjusting Scrolling Speed
+5. Modifying Logo Appearance
+6. How the Infinite Scrolling Works
+
+## 1. ADDING NEW CLIENT LOGOS
+
+To add a new client logo to the scrolling section:
+
+1. Add the logo image file to the `assets/images/clients/` folder
+   - Recommended format: PNG with transparent background
+   - Recommended dimensions: Approximately 180px width (height will adjust proportionally)
+
+2. Add a new entry to the `clients` array in `js/config.js`:
+   ```javascript
+   {
+     name: 'ClientName',
+     logoSrc: 'assets/images/clients/your-logo-filename.png',
+     logoAlt: 'Client Name Logo'
+   }
+   ```
+   - `name`: The name of the client (used for the title attribute)
+   - `logoSrc`: The path to the logo image file
+   - `logoAlt`: Alternative text for accessibility (displayed if image fails to load)
+
+3. Save the file and refresh the page to see the new logo in the scrolling section.
+
+## 2. REMOVING CLIENT LOGOS
+
+To remove a client logo from the scrolling section:
+
+1. Open `js/config.js`
+2. Find the entry for the client logo you want to remove in the `clientsConfig.clients` array
+3. Delete the entire object (the lines containing the name, logoSrc, and logoAlt for that client)
+4. Save the file and refresh the page
+
+Note: You can also keep the image file in the `assets/images/clients/` folder for future use, as only logos referenced in the config file will be displayed.
+
+## 3. EDITING EXISTING CLIENT LOGOS
+
+To edit an existing client logo:
+
+1. Open `js/config.js`
+2. Find the entry for the client logo you want to edit in the `clientsConfig.clients` array
+3. Modify any of the following properties:
+   - `name`: Change the client name
+   - `logoSrc`: Update the path if you're using a different image file
+   - `logoAlt`: Update the alternative text
+4. If you're replacing the image, add the new image to `assets/images/clients/` folder
+5. Save the file and refresh the page
+
+## 4. ADJUSTING SCROLLING SPEED
+
+To change how fast or slow the logos scroll:
+
+1. Open `js/main.js`
+2. Find the `initializeClientLogos()` function
+3. Locate the `scrollSpeed` parameter in the ClientsManager initialization:
+   ```javascript
+   const clientsManager = new ClientsManager({
+       selector: '.logo-container',
+       scrollSpeed: 43 // Adjust this value
+   });
+   ```
+4. Modify the `scrollSpeed` value:
+   - Higher number = slower scrolling (value is in seconds for a complete scroll cycle)
+   - Lower number = faster scrolling
+   - Current value: 43 seconds (recommended range: 20-60 seconds)
+5. Save the file and refresh the page
+
+## 5. MODIFYING LOGO APPEARANCE
+
+To change how the logos look (size, opacity, color effects):
+
+1. Open `css/components.css`
+2. Find the `.logo-container img` and `.logo-container img:hover` selectors
+3. Modify the CSS properties:
+
+   ```css
+   .logo-container img {
+       height: auto;
+       width: 180px; /* Adjust logo width */
+       max-width: 200px;
+       margin: 0 var(--spacing-md); /* Adjust spacing between logos */
+       opacity: 0.8; /* Adjust transparency (0.0 - 1.0) */
+       transition: all var(--transition-normal);
+       filter: grayscale(100%) brightness(2.5) contrast(0.8); /* Adjust visual effects */
+       object-fit: contain;
+   }
+
+   .logo-container img:hover {
+       opacity: 1; /* Adjust hover transparency */
+       filter: grayscale(0%) brightness(1) contrast(1); /* Adjust hover effects */
+   }
+   ```
+
+4. Common adjustments:
+   - `width`: Controls the size of the logos
+   - `margin`: Controls spacing between logos
+   - `opacity`: Controls transparency (0.0 = fully transparent, 1.0 = fully opaque)
+   - `filter`: Controls visual effects
+     - `grayscale(100%)`: Makes logos black and white (0% = original colors)
+     - `brightness(2.5)`: Makes logos brighter (1.0 = normal, >1 = brighter)
+     - `contrast(0.8)`: Adjusts contrast (1.0 = normal, <1 = less contrast, >1 = more contrast)
+
+5. Save the file and refresh the page
+
+## 6. HOW THE INFINITE SCROLLING WORKS
+
+The infinite scrolling effect works by:
+
+1. Loading all client logos from the configuration file
+2. Duplicating the entire set of logos to create a seamless loop
+3. Using CSS animation to scroll the logos from right to left
+4. When the first set of logos scrolls out of view, the identical second set is already in place
+5. This creates the illusion of continuous scrolling without any jarring transitions
+
+The key components that make this work:
+
+- `ClientsManager.js`: Contains the logic for loading and duplicating logos
+- `animations.css`: Contains the `scrollLogos` keyframe animation
+- `components.css`: Contains the styling for the logos and container
+- `config.js`: Contains the list of client logos to display
+
+The `ensureInfiniteScroll()` method in `ClientsManager.js` is responsible for duplicating the logos to create the seamless effect. If you need to modify how the infinite scrolling works, this is the method to edit.
+
+## TROUBLESHOOTING
+
+If logos aren't appearing or the scrolling doesn't look right:
+
+1. Check the browser console for any JavaScript errors
+2. Verify that all logo file paths in `config.js` are correct
+3. Make sure the logo files exist in the specified location
+4. Check that the CSS selectors in `components.css` match the HTML structure
+5. Try clearing your browser cache and refreshing the page
+
+For more complex issues, you may need to examine:
+- The `ClientsManager.js` file for the logo loading and duplication logic
+- The CSS animation definitions in `animations.css`
