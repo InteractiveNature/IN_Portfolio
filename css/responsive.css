@@ -42,19 +42,21 @@
     
     /* Adjust work gallery for tablets */
     .work-grid {
-        height: 450px; /* Adjusted for larger items */
-        padding: 1.5rem 0;
+        height: 400px; /* Reduced by 20% from original 450px */
+        padding: 1rem 0;
+        margin-left: -2rem; /* Pull the gallery to the left edge of the screen */
+        padding-left: 2rem; /* Add padding to offset the negative margin */
     }
     
-    /* Adjust spacer for tablets */
-    .work .container::after {
-        height: 450px; /* Same as work-grid height */
+    /* Adjust overlay padding for tablets */
+    .work-overlay {
+        padding-bottom: 3rem; /* Slightly less padding on tablets */
     }
     
     .work-item-link {
-        min-width: 600px; /* Adjusted for tablets but still large */
-        height: 400px; /* Adjusted height */
-        margin-right: -150px; /* Adjusted overlap */
+        min-width: 480px; /* Reduced by 20% from original 600px */
+        height: 320px; /* Reduced by 20% from original 400px */
+        margin-right: -120px; /* Reduced by 20% from original -150px */
         aspect-ratio: 1.5/1; /* Maintain aspect ratio */
     }
     
@@ -72,19 +74,21 @@
 @media (max-width: 850px) {
     /* Adjust work gallery for medium screens */
     .work-grid {
-        height: 400px; /* Adjusted for larger items */
-        padding: 1rem 0;
+        height: 350px; /* Reduced by ~20% from original 400px */
+        padding: 0.5rem 0; /* Further reduced top padding */
+        margin-left: -1.5rem; /* Pull the gallery to the left edge of the screen */
+        padding-left: 1.5rem; /* Add padding to offset the negative margin */
     }
     
-    /* Adjust spacer for medium screens */
-    .work .container::after {
-        height: 400px; /* Same as work-grid height */
+    /* Adjust overlay padding for medium screens */
+    .work-overlay {
+        padding-bottom: 2.5rem; /* Less padding on medium screens */
     }
     
     .work-item-link {
-        min-width: 500px; /* Still large but adjusted for medium screens */
-        height: 350px; /* Adjusted height */
-        margin-right: -120px; /* Adjusted overlap */
+        min-width: 400px; /* Reduced by 20% from original 500px */
+        height: 280px; /* Reduced by 20% from original 350px */
+        margin-right: -100px; /* Reduced by ~20% from original -120px */
         aspect-ratio: 1.5/1; /* Maintain aspect ratio */
     }
     
@@ -141,12 +145,11 @@
         align-items: center;
         margin: 0;
         padding: 1rem 0;
+        width: 100%; /* Reset width */
+        margin-left: 0; /* Reset margin */
+        padding-left: 0; /* Reset padding */
     }
     
-    /* Remove spacer on mobile */
-    .work .container::after {
-        display: none;
-    }
     
     .work-item-link {
         width: 100%;

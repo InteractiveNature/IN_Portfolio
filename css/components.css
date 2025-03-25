@@ -174,51 +174,53 @@
 
 /* Work/Portfolio Section */
 .work {
-    padding: var(--spacing-md) 0 var(--spacing-xxl) 0; /* Further reduced top padding to bring closer to services */
+    padding: var(--spacing-md) 0 var(--spacing-lg) 0; /* Reduced bottom padding to bring clients section closer */
+    position: relative; /* Ensure proper positioning context */
+}
+
+/* Reduce space between section header and gallery */
+.work .section-header {
+    margin-bottom: var(--spacing-md); /* Reduced from var(--spacing-xl) */
+    position: relative; /* Ensure proper stacking */
+    z-index: 2; /* Place above the gallery */
 }
 
 /* New horizontal gallery layout */
 .work-grid {
     display: flex;
     overflow-x: auto;
-    position: absolute; /* Position absolutely to break out of container */
-    padding: 2rem 0;
+    position: relative; /* Changed from absolute to relative */
+    padding: 1rem 0; /* Reduced top padding */
     margin: 0;
-    height: 600px; /* Increased height for larger gallery */
+    height: 500px; /* Reduced height by about 20% */
     justify-content: flex-start; /* Start from the left edge */
     scrollbar-width: none; /* Hide scrollbar for Firefox */
     -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
-    width: 100%; /* Full width */
-    left: 0; /* Start from the left edge of the window */
-    right: 0; /* Extend to the right edge of the window */
-    padding-left: 2vw; /* Add a small padding to the left */
+    width: 100%; /* Use 100% instead of 100vw to match container width */
+    margin-left: -2rem; /* Pull the gallery to the left edge of the screen */
+    padding-left: 2rem; /* Add padding to offset the negative margin */
 }
 
-/* Add a spacer to ensure proper section height since grid is absolute positioned */
-.work .container::after {
-    content: '';
-    display: block;
-    height: 600px; /* Same as work-grid height */
-    width: 100%;
-}
+/* Remove the spacer since we're using relative positioning now */
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .work-grid::-webkit-scrollbar {
     display: none;
 }
 
-/* Make work items clickable with new oval design */
+/* Make work items clickable with new oval design - reduced size by ~20% */
 .work-item-link {
     display: block;
     text-decoration: none;
     color: var(--text);
-    min-width: 800px; /* Much larger size - about twice as large */
-    height: 500px; /* Increased height */
-    margin-right: -200px; /* Increased overlap for larger items */
+    min-width: 640px; /* Reduced from 800px (20% smaller) */
+    height: 400px; /* Reduced from 500px (20% smaller) */
+    margin-right: -160px; /* Reduced from -200px (20% smaller) */
     transition: all 0.4s ease;
     position: relative;
     z-index: 1;
-    padding: 0 30px; /* Increased padding for better spacing */
+    padding: 0 30px; /* Maintained padding */
+    transform-origin: center; /* Ensure scaling happens from center */
 }
 
 .work-item {
@@ -232,19 +234,20 @@
     border-radius: 50%; /* Circular shape */
 }
 
-/* Apply aspect ratio to the link instead of the item */
+/* Apply aspect ratio to the link instead of the item - keeping the same aspect ratio */
 .work-item-link {
     display: block;
     text-decoration: none;
     color: var(--text);
-    min-width: 800px; /* Much larger size - about twice as large */
-    height: 500px; /* Increased height */
-    margin-right: -200px; /* Increased overlap for larger items */
+    min-width: 640px; /* Reduced from 800px (20% smaller) */
+    height: 400px; /* Reduced from 500px (20% smaller) */
+    margin-right: -160px; /* Reduced from -200px (20% smaller) */
     transition: all 0.4s ease;
     position: relative;
     z-index: 1;
-    padding: 0 30px; /* Increased padding for better spacing */
-    aspect-ratio: 1.5/1; /* Horizontally stretched aspect ratio */
+    padding: 0 30px; /* Maintained padding */
+    aspect-ratio: 1.5/1; /* Maintained horizontally stretched aspect ratio */
+    transform-origin: center; /* Ensure scaling happens from center */
 }
 
 /* Ensure images are properly contained within the oval */
@@ -262,7 +265,7 @@
 }
 
 .work-item-link:hover {
-    transform: translateX(0) scale(1.15) !important; /* Override the default shift and make larger */
+    transform: translateX(0) scale(1.1) !important; /* Reduced scale from 1.15 to 1.1 to prevent cropping */
     z-index: 10;
     margin-right: 0; /* Remove overlap when hovered */
 }
@@ -329,11 +332,14 @@
     background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
     display: flex;
     flex-direction: column;
+    align-items: center; /* Center horizontally */
     justify-content: flex-end;
     padding: 2rem;
+    padding-bottom: 4rem; /* Add more padding at the bottom to move text up */
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: 3; /* Above the mask */
+    text-align: center; /* Center text */
 }
 
 .work-item-link:hover .work-overlay {
@@ -392,11 +398,12 @@
     font-size: var(--font-size-sm);
 }
 
-/* Clients Section */
+/* Clients Section - reduced top padding to bring closer to work section */
 .clients {
-    padding: var(--spacing-xl) 0;
+    padding: var(--spacing-md) 0 var(--spacing-xl) 0; /* Reduced top padding */
     background-color: rgba(255, 255, 255, 0.02);
     overflow: hidden; /* Make sure this is present */
+    margin-top: var(--spacing-md); /* Add a small margin to create some separation */
 }
 
 .client-logo-scroll {
