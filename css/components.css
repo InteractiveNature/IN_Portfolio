@@ -176,11 +176,12 @@
 .work {
     padding: var(--spacing-md) 0 var(--spacing-lg) 0; /* Reduced bottom padding to bring clients section closer */
     position: relative; /* Ensure proper positioning context */
+    overflow: hidden; /* Ensure content doesn't cause horizontal scrolling */
 }
 
 /* Reduce space between section header and gallery */
 .work .section-header {
-    margin-bottom: var(--spacing-md); /* Reduced from var(--spacing-xl) */
+    margin-bottom: 0; /* Remove bottom margin to allow overlap */
     position: relative; /* Ensure proper stacking */
     z-index: 2; /* Place above the gallery */
 }
@@ -191,14 +192,15 @@
     overflow-x: auto;
     position: relative; /* Changed from absolute to relative */
     padding: 1rem 0; /* Reduced top padding */
-    margin: 0;
+    margin-top: -2rem; /* Move gallery up to overlap with title */
     height: 500px; /* Reduced height by about 20% */
     justify-content: flex-start; /* Start from the left edge */
     scrollbar-width: none; /* Hide scrollbar for Firefox */
     -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
-    width: 100%; /* Use 100% instead of 100vw to match container width */
-    margin-left: -2rem; /* Pull the gallery to the left edge of the screen */
+    width: 100vw; /* Use viewport width to extend full width */
+    margin-left: calc(-50vw + 50%); /* Center the gallery and extend to edges */
     padding-left: 2rem; /* Add padding to offset the negative margin */
+    /* Removed smooth scrolling to fix slow scrolling issue */
 }
 
 /* Remove the spacer since we're using relative positioning now */
@@ -208,20 +210,34 @@
     display: none;
 }
 
-/* Make work items clickable with new oval design - reduced size by ~20% */
+/* Make work items clickable with new oval design - now 15% larger than previous size */
 .work-item-link {
     display: block;
     text-decoration: none;
     color: var(--text);
-    min-width: 640px; /* Reduced from 800px (20% smaller) */
-    height: 400px; /* Reduced from 500px (20% smaller) */
-    margin-right: -160px; /* Reduced from -200px (20% smaller) */
-    transition: all 0.4s ease;
+    min-width: 736px; /* Increased by 15% from 640px */
+    height: 460px; /* Increased by 15% from 400px */
+    margin-right: -170px; /* Adjusted for slight overlap */
+    transition: all 0.5s ease-out; /* Faster transition to improve responsiveness */
     position: relative;
     z-index: 1;
     padding: 0 30px; /* Maintained padding */
-    transform-origin: center; /* Ensure scaling happens from center */
+    transform-origin: center 40%; /* Adjust transform origin to prevent top cropping */
+    will-change: transform; /* Optimize for animations */
 }
+
+/* Establish consistent z-index hierarchy to prevent flickering during scrolling */
+.work-item-link:nth-child(1) { z-index: 20; }
+.work-item-link:nth-child(2) { z-index: 19; }
+.work-item-link:nth-child(3) { z-index: 18; }
+.work-item-link:nth-child(4) { z-index: 17; }
+.work-item-link:nth-child(5) { z-index: 16; }
+.work-item-link:nth-child(6) { z-index: 15; }
+.work-item-link:nth-child(7) { z-index: 14; }
+.work-item-link:nth-child(8) { z-index: 13; }
+.work-item-link:nth-child(9) { z-index: 12; }
+.work-item-link:nth-child(10) { z-index: 11; }
+.work-item-link:nth-child(n+11) { z-index: 10; } /* For any additional items */
 
 .work-item {
     position: relative;
@@ -239,15 +255,16 @@
     display: block;
     text-decoration: none;
     color: var(--text);
-    min-width: 640px; /* Reduced from 800px (20% smaller) */
-    height: 400px; /* Reduced from 500px (20% smaller) */
-    margin-right: -160px; /* Reduced from -200px (20% smaller) */
-    transition: all 0.4s ease;
+    min-width: 736px; /* Increased by 15% from 640px */
+    height: 460px; /* Increased by 15% from 400px */
+    margin-right: -170px; /* Adjusted for slight overlap */
+    transition: all 0.5s ease-out; /* Faster transition to improve responsiveness */
     position: relative;
     z-index: 1;
     padding: 0 30px; /* Maintained padding */
     aspect-ratio: 1.5/1; /* Maintained horizontally stretched aspect ratio */
-    transform-origin: center; /* Ensure scaling happens from center */
+    transform-origin: center 40%; /* Adjust transform origin to prevent top cropping */
+    will-change: transform; /* Optimize for animations */
 }
 
 /* Ensure images are properly contained within the oval */
@@ -261,17 +278,35 @@
 
 /* Hover effects for gallery items */
 .work-grid:hover .work-item-link {
-    transform: translateX(-80px); /* Default shift left when any item is hovered */
+    transform: translateX(-60px); /* Default shift left when any item is hovered */
 }
 
+/* Key fix: When hovering an item, it gets a lower z-index than items to its left */
 .work-item-link:hover {
-    transform: translateX(0) scale(1.1) !important; /* Reduced scale from 1.15 to 1.1 to prevent cropping */
-    z-index: 10;
+    transform: translateX(0) scale(1.05) !important; /* Scale without Z transform */
+    z-index: 5; /* Lower than default z-index of items to the left */
     margin-right: 0; /* Remove overlap when hovered */
 }
 
-.work-item-link:hover ~ .work-item-link {
-    transform: translateX(120px); /* Push items to the right of the hovered item */
+/* Add staggered delays for items after the hovered one */
+.work-item-link:hover ~ .work-item-link:nth-of-type(1) {
+    transform: translateX(100px); /* Push items to the right of the hovered item */
+    transition-delay: 0.05s; /* Small delay for first item after hovered */
+}
+
+.work-item-link:hover ~ .work-item-link:nth-of-type(2) {
+    transform: translateX(100px);
+    transition-delay: 0.1s; /* Slightly longer delay for second item */
+}
+
+.work-item-link:hover ~ .work-item-link:nth-of-type(3) {
+    transform: translateX(100px);
+    transition-delay: 0.15s; /* Even longer delay for third item */
+}
+
+.work-item-link:hover ~ .work-item-link:nth-of-type(n+4) {
+    transform: translateX(100px);
+    transition-delay: 0.2s; /* Maximum delay for remaining items */
 }
 
 .work-item-link:hover .work-item {

@@ -44,8 +44,11 @@
     .work-grid {
         height: 400px; /* Reduced by 20% from original 450px */
         padding: 1rem 0;
-        margin-left: -2rem; /* Pull the gallery to the left edge of the screen */
-        padding-left: 2rem; /* Add padding to offset the negative margin */
+        width: 100vw; /* Use viewport width to extend full width */
+        margin-left: calc(-50vw + 50%); /* Center the gallery and extend to edges */
+        padding-left: 1.5rem; /* Add padding to offset the negative margin */
+        margin-top: -1.5rem; /* Move gallery up to overlap with title */
+        /* Removed smooth scrolling to fix slow scrolling issue */
     }
     
     /* Adjust overlay padding for tablets */
@@ -54,19 +57,26 @@
     }
     
     .work-item-link {
-        min-width: 480px; /* Reduced by 20% from original 600px */
-        height: 320px; /* Reduced by 20% from original 400px */
-        margin-right: -120px; /* Reduced by 20% from original -150px */
+        min-width: 552px; /* Increased by 15% from 480px */
+        height: 368px; /* Increased by 15% from 320px */
+        margin-right: -130px; /* Adjusted for slight overlap */
         aspect-ratio: 1.5/1; /* Maintain aspect ratio */
+        transform-origin: center 40%; /* Adjust transform origin to prevent top cropping */
+        transition: all 0.5s ease-out; /* Faster transition to improve responsiveness */
     }
     
     /* Adjust hover effects for tablets */
     .work-grid:hover .work-item-link {
-        transform: translateX(-50px);
+        transform: translateX(-40px); /* Reduced shift */
+    }
+    
+    .work-item-link:hover {
+        transform: translateX(0) scale(1.05) !important; /* Scale without Z transform */
+        z-index: 5; /* Lower than default z-index of items to the left */
     }
     
     .work-item-link:hover ~ .work-item-link {
-        transform: translateX(80px);
+        transform: translateX(80px); /* Push items to the right */
     }
 }
 
@@ -76,8 +86,11 @@
     .work-grid {
         height: 350px; /* Reduced by ~20% from original 400px */
         padding: 0.5rem 0; /* Further reduced top padding */
-        margin-left: -1.5rem; /* Pull the gallery to the left edge of the screen */
-        padding-left: 1.5rem; /* Add padding to offset the negative margin */
+        width: 100vw; /* Use viewport width to extend full width */
+        margin-left: calc(-50vw + 50%); /* Center the gallery and extend to edges */
+        padding-left: 1rem; /* Add padding to offset the negative margin */
+        margin-top: -1rem; /* Move gallery up to overlap with title */
+        /* Removed smooth scrolling to fix slow scrolling issue */
     }
     
     /* Adjust overlay padding for medium screens */
@@ -86,19 +99,21 @@
     }
     
     .work-item-link {
-        min-width: 400px; /* Reduced by 20% from original 500px */
-        height: 280px; /* Reduced by 20% from original 350px */
-        margin-right: -100px; /* Reduced by ~20% from original -120px */
+        min-width: 460px; /* Increased by 15% from 400px */
+        height: 322px; /* Increased by 15% from 280px */
+        margin-right: -110px; /* Adjusted for slight overlap */
         aspect-ratio: 1.5/1; /* Maintain aspect ratio */
+        transform-origin: center 40%; /* Adjust transform origin to prevent top cropping */
+        transition: all 0.5s ease-out; /* Faster transition to improve responsiveness */
     }
     
     /* Simplify hover effects for medium screens */
     .work-grid:hover .work-item-link {
-        transform: translateX(-30px);
+        transform: translateX(-30px); /* Reduced shift */
     }
     
     .work-item-link:hover ~ .work-item-link {
-        transform: translateX(60px);
+        transform: translateX(60px); /* Push items to the right */
     }
     
     .work-overlay {
@@ -148,6 +163,12 @@
         width: 100%; /* Reset width */
         margin-left: 0; /* Reset margin */
         padding-left: 0; /* Reset padding */
+        margin-top: 0; /* Reset margin-top */
+    }
+    
+    /* Restore section header margin on mobile */
+    .work .section-header {
+        margin-bottom: var(--spacing-md);
     }
     
     
@@ -161,6 +182,7 @@
         margin-bottom: var(--spacing-lg); /* More space between items */
         transform: none !important;
         padding: 0;
+        transition: all 0.5s ease; /* Simpler transition for mobile */
     }
     
     .work-item {
@@ -177,6 +199,7 @@
     .work-item-link:hover {
         transform: none !important;
         z-index: 1;
+        /* No scale on mobile, so no need to adjust transform origin */
     }
     
     .work-item-link:hover ~ .work-item-link {
