@@ -60,32 +60,53 @@ export const workConfig = {
     subheading: 'A selection of our most innovative spatial experiences and technical productions.',
     projects: [
         {
-            title: 'Delta SXSW installation',
+            title: 'Delta SXSW Installation',
             description: 'Interactive installation for SXSW 2024',
             imageSrc: 'assets/images/portfolio/giftingSolon.jpg',
             imageAlt: 'Interactive Installation for SXSW',
             projectUrl: 'projects/responsive-light-forest.html'
         },
         {
-            title: 'Experimental Immersive Art Installations',
+            title: 'Experimental Immersive Art',
             description: '3D Renderings for interactive art installation',
             imageSrc: 'assets/images/portfolio/lightForest.jpg',
             imageAlt: '3D renderings and design',
             projectUrl: 'projects/project-template.html'
         },
         {
-            title: 'VFX Content and Design for Broadway Musical',
+            title: 'Broadway Musical VFX Design',
             description: 'Music visualization for Broadway theatre production',
             imageSrc: 'assets/images/portfolio/onceuponaonemoreTime.png',
             imageAlt: 'VFX and Content Production',
             projectUrl: 'projects/responsive-light-forest.html'
         },
         {
-            title: 'Interactive Digital Experience Custom Prop',
+            title: 'Interactive Digital Experience',
             description: 'Interactive Experience and Fabrication for Event',
             imageSrc: 'assets/images/portfolio/zoltar.jpg',
             imageAlt: 'Interactive Experience for Event Fabrication',
             projectUrl: 'projects/responsive-light-forest.html'
+        },
+        {
+            title: 'Meta Cave Experience',
+            description: 'Immersive digital environment for Meta',
+            imageSrc: 'assets/images/portfolio/Meta_Cave.png',
+            imageAlt: 'Meta Cave Digital Environment',
+            projectUrl: 'projects/project-template.html'
+        },
+        {
+            title: 'Little Mermaid Projection',
+            description: 'Projection mapping for theatrical production',
+            imageSrc: 'assets/images/portfolio/LittleMermaid.jpg',
+            imageAlt: 'Little Mermaid Projection Mapping',
+            projectUrl: 'projects/responsive-light-forest.html'
+        },
+        {
+            title: 'Bored Apes Installation',
+            description: 'Interactive NFT art installation',
+            imageSrc: 'assets/images/portfolio/boredApes.jpg',
+            imageAlt: 'Bored Apes NFT Installation',
+            projectUrl: 'projects/project-template.html'
         }
     ]
 };

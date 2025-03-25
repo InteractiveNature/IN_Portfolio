@@ -1,5 +1,49 @@
 /* Animations CSS - All animations and keyframes */
 
+/* Work gallery animations */
+@keyframes bounceEffectLeft {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-30px); }
+    50% { transform: translateX(0); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes bounceEffectRight {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(30px); }
+    50% { transform: translateX(0); }
+    75% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+}
+
+.bounce-animation-left {
+    animation: bounceEffectLeft 0.6s ease;
+}
+
+.bounce-animation-right {
+    animation: bounceEffectRight 0.6s ease;
+}
+
+/* Gallery edge scroll animation */
+@keyframes slideInFromRight {
+    from { transform: translateX(100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInFromLeft {
+    from { transform: translateX(-100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.slide-in-right {
+    animation: slideInFromRight 0.4s ease forwards;
+}
+
+.slide-in-left {
+    animation: slideInFromLeft 0.4s ease forwards;
+}
+
 /* Logo animation */
 @keyframes rotate-accent {
     0% {

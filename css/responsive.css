@@ -40,53 +40,65 @@
         gap: var(--spacing-lg);
     }
     
+    /* Adjust work gallery for tablets */
     .work-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-md);
+        height: 450px; /* Adjusted for larger items */
+        padding: 1.5rem 0;
     }
     
-    .work-item {
-        position: relative;
-        width: 100%;
-        aspect-ratio: 16/9;
-        left: auto !important;
-        right: auto !important;
-        top: auto !important;
+    /* Adjust spacer for tablets */
+    .work .container::after {
+        height: 450px; /* Same as work-grid height */
     }
     
-    /* Reset absolute positioning for work items */
-    .work-item:nth-child(1),
-    .work-item:nth-child(2),
-    .work-item:nth-child(3),
-    .work-item:nth-child(4) {
-        position: relative;
-        top: auto;
-        left: auto;
-        right: auto;
+    .work-item-link {
+        min-width: 600px; /* Adjusted for tablets but still large */
+        height: 400px; /* Adjusted height */
+        margin-right: -150px; /* Adjusted overlap */
+        aspect-ratio: 1.5/1; /* Maintain aspect ratio */
+    }
+    
+    /* Adjust hover effects for tablets */
+    .work-grid:hover .work-item-link {
+        transform: translateX(-50px);
+    }
+    
+    .work-item-link:hover ~ .work-item-link {
+        transform: translateX(80px);
     }
 }
 
 /* Medium-sized Screens */
 @media (max-width: 850px) {
+    /* Adjust work gallery for medium screens */
     .work-grid {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-md);
+        height: 400px; /* Adjusted for larger items */
+        padding: 1rem 0;
     }
     
-    .work-item {
-        width: 100%;
-        max-width: 500px;
-        margin: 0 auto;
-        aspect-ratio: 16/9;
+    /* Adjust spacer for medium screens */
+    .work .container::after {
+        height: 400px; /* Same as work-grid height */
     }
     
     .work-item-link {
-        margin-bottom: var(--spacing-md);
+        min-width: 500px; /* Still large but adjusted for medium screens */
+        height: 350px; /* Adjusted height */
+        margin-right: -120px; /* Adjusted overlap */
+        aspect-ratio: 1.5/1; /* Maintain aspect ratio */
+    }
+    
+    /* Simplify hover effects for medium screens */
+    .work-grid:hover .work-item-link {
+        transform: translateX(-30px);
+    }
+    
+    .work-item-link:hover ~ .work-item-link {
+        transform: translateX(60px);
     }
     
     .work-overlay {
-        opacity: 1; /* Always show overlay on smaller screens */
+        opacity: 0.8; /* Partially show overlay on medium screens */
         background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3));
     }
 }
@@ -118,31 +130,54 @@
         display: none;
     }
     
+    /* Convert to vertical layout for mobile */
     .work-grid {
+        position: relative; /* Reset to relative positioning on mobile */
         display: flex;
         flex-direction: column;
         gap: var(--spacing-md);
-        min-height: auto;
+        height: auto;
+        overflow-x: visible;
         align-items: center;
+        margin: 0;
+        padding: 1rem 0;
     }
     
-    .work-item {
-        position: relative;
-        width: 100%;
-        left: auto !important;
-        right: auto !important;
-        top: auto !important;
-        animation: none !important;
-        margin-bottom: var(--spacing-md);
-        max-width: 100%;
-        height: auto;
-        aspect-ratio: 16/9;
+    /* Remove spacer on mobile */
+    .work .container::after {
+        display: none;
     }
     
     .work-item-link {
         width: 100%;
-        max-width: 450px;
-        margin-bottom: var(--spacing-md);
+        max-width: 400px; /* Larger on mobile */
+        min-width: unset;
+        height: auto;
+        aspect-ratio: 1.5/1; /* Maintain horizontally stretched aspect ratio */
+        margin-right: 0;
+        margin-bottom: var(--spacing-lg); /* More space between items */
+        transform: none !important;
+        padding: 0;
+    }
+    
+    .work-item {
+        height: 100%;
+        border-radius: 50%; /* Keep circular shape */
+        aspect-ratio: 1.2/1; /* Maintain horizontally stretched circle */
+    }
+    
+    /* Reset hover effects for mobile */
+    .work-grid:hover .work-item-link {
+        transform: none !important;
+    }
+    
+    .work-item-link:hover {
+        transform: none !important;
+        z-index: 1;
+    }
+    
+    .work-item-link:hover ~ .work-item-link {
+        transform: none !important;
     }
     
     .work-overlay {

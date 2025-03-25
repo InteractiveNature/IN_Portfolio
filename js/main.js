@@ -115,8 +115,11 @@ function initializeServices() {
 function initializeWorkItems() {
     const workItemManager = new WorkItemManager({
         selector: '.work-grid',
-        floatingEnabled: effectsConfig.workItems.floatingEnabled,
-        mouseInteractionEnabled: effectsConfig.workItems.mouseInteractionEnabled
+        edgeScrollEnabled: true,
+        edgeScrollThreshold: 150,
+        edgeScrollSpeed: 5,
+        hoverInteractionEnabled: true,
+        bounceAnimationEnabled: true
     });
     
     // Clear existing content

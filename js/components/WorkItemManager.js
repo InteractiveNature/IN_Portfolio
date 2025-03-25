@@ -1,6 +1,6 @@
 /**
  * WorkItemManager.js - Manages work/portfolio items for Interactive Nature website
- * Updated with simplified positioning for reliability
+ * Updated with horizontal gallery layout and interactive features
  */
 
 export class WorkItemManager {
@@ -11,15 +11,11 @@ export class WorkItemManager {
     constructor(options = {}) {
         this.options = {
             selector: '.work-grid',
-            floatingEnabled: false, // Default to disabled for now
-            mouseInteractionEnabled: false, // Default to disabled for now
-            floatStrength: {
-                x: 15,
-                y: 10
-            },
-            rotationStrength: 0.02,
-            scaleOnHover: true,
-            maxScale: 1.05,
+            edgeScrollEnabled: true, // Enable edge scrolling by default
+            edgeScrollThreshold: 150, // Pixels from edge to trigger scrolling
+            edgeScrollSpeed: 5, // Pixels per frame to scroll
+            hoverInteractionEnabled: true, // Enable hover interactions
+            bounceAnimationEnabled: true, // Enable bounce animation at gallery ends
             ...options
         };
         
@@ -27,10 +23,13 @@ export class WorkItemManager {
         this.workItems = [];
         this.mouseX = 0;
         this.mouseY = 0;
-        this.windowCenterX = window.innerWidth / 2;
-        this.windowCenterY = window.innerHeight / 2;
+        this.isScrolling = false;
+        this.scrollDirection = 0; // -1 for left, 1 for right
+        this.reachedStart = false;
+        this.reachedEnd = false;
         this.initialized = false;
         this.animationFrame = null;
+        this.isMobile = window.innerWidth <= 768;
     }
     
     /**
@@ -47,9 +46,9 @@ export class WorkItemManager {
         this.initialized = true;
         this.setupEventListeners();
         
-        // Only enable floating effects if explicitly enabled and the method exists
-        if (this.options.floatingEnabled && typeof this.initializeFloatingEffect === 'function') {
-            this.initializeFloatingEffect();
+        // Initialize edge scrolling if enabled and not on mobile
+        if (this.options.edgeScrollEnabled && !this.isMobile) {
+            this.initializeEdgeScrolling();
         }
         
         return this;
@@ -59,13 +58,11 @@ export class WorkItemManager {
      * Set up event listeners
      */
     setupEventListeners() {
-        // Track mouse position for hover effects only if enabled
-        if (this.options.mouseInteractionEnabled) {
-            document.addEventListener('mousemove', this.handleMouseMove.bind(this));
-            
-            // Handle window resize
-            window.addEventListener('resize', this.handleResize.bind(this));
-        }
+        // Track mouse position for hover and edge scrolling effects
+        document.addEventListener('mousemove', this.handleMouseMove.bind(this));
+        
+        // Handle window resize
+        window.addEventListener('resize', this.handleResize.bind(this));
         
         // Add intersection observer for scroll animations
         const observerOptions = {
@@ -100,36 +97,169 @@ export class WorkItemManager {
         this.mouseX = e.clientX;
         this.mouseY = e.clientY;
         
-        // Update window center points
-        this.windowCenterX = window.innerWidth / 2;
-        this.windowCenterY = window.innerHeight / 2;
+        // Check if mouse is over the gallery element
+        if (this.element) {
+            const rect = this.element.getBoundingClientRect();
+            
+            // Expanded detection area - check if mouse is within or near the gallery bounds
+            const expandedTop = rect.top - 50;
+            const expandedBottom = rect.bottom + 50;
+            const expandedLeft = rect.left - 100; // Extend detection area to the left
+            const expandedRight = rect.right + 100; // Extend detection area to the right
+            
+            if (
+                this.mouseX >= expandedLeft &&
+                this.mouseX <= expandedRight &&
+                this.mouseY >= expandedTop &&
+                this.mouseY <= expandedBottom
+            ) {
+                // Check if mouse is near the left or right edge with expanded detection
+                if (this.options.edgeScrollEnabled && !this.isMobile) {
+                    // Left edge - expanded detection area
+                    if (this.mouseX < rect.left + this.options.edgeScrollThreshold) {
+                        this.startScrolling(-1); // Scroll left
+                    }
+                    // Right edge - expanded detection area
+                    else if (this.mouseX > rect.right - this.options.edgeScrollThreshold) {
+                        this.startScrolling(1); // Scroll right
+                    }
+                    // Not near edges
+                    else {
+                        this.stopScrolling();
+                    }
+                }
+            } else {
+                // Mouse is outside expanded gallery area
+                this.stopScrolling();
+            }
+        }
     }
     
     /**
      * Handle window resize
      */
     handleResize() {
-        this.windowCenterX = window.innerWidth / 2;
-        this.windowCenterY = window.innerHeight / 2;
+        // Update mobile status
+        this.isMobile = window.innerWidth <= 768;
+        
+        // Disable edge scrolling on mobile
+        if (this.isMobile) {
+            this.stopScrolling();
+        }
     }
     
     /**
-     * Initialize floating effect for work items
-     * This method is now included to prevent errors, but simplified
+     * Initialize edge scrolling functionality
      */
-    initializeFloatingEffect() {
-        this.workItems.forEach((item) => {
-            if (!item.element) return;
+    initializeEdgeScrolling() {
+        // Set up animation frame for smooth scrolling
+        this.animationFrame = requestAnimationFrame(this.updateScroll.bind(this));
+        
+        // Add scroll event listener to detect manual scrolling
+        this.element.addEventListener('scroll', () => {
+            // Check if we've reached the start or end of the gallery
+            const maxScrollLeft = this.element.scrollWidth - this.element.clientWidth;
             
-            // Add simple hover effect instead of complex animation
-            item.element.addEventListener('mouseenter', () => {
-                item.element.style.transform = 'translateY(-10px) scale(1.02)';
-            });
-            
-            item.element.addEventListener('mouseleave', () => {
-                item.element.style.transform = '';
-            });
+            if (this.element.scrollLeft <= 0) {
+                this.reachedStart = true;
+            } else if (this.element.scrollLeft >= maxScrollLeft) {
+                this.reachedEnd = true;
+            } else {
+                this.reachedStart = false;
+                this.reachedEnd = false;
+            }
         });
+    }
+    
+    /**
+     * Start scrolling in a direction
+     * @param {number} direction - Direction to scroll (-1 for left, 1 for right)
+     */
+    startScrolling(direction) {
+        this.isScrolling = true;
+        this.scrollDirection = direction;
+    }
+    
+    /**
+     * Stop scrolling
+     */
+    stopScrolling() {
+        this.isScrolling = false;
+        this.scrollDirection = 0;
+    }
+    
+    /**
+     * Update scroll position based on current scroll direction
+     */
+    updateScroll() {
+        if (this.isScrolling && this.element) {
+            // Calculate new scroll position with increased speed
+            const scrollSpeed = this.options.edgeScrollSpeed * 2; // Double the scroll speed
+            const newScrollLeft = this.element.scrollLeft + (this.scrollDirection * scrollSpeed);
+            
+            // Check if we've reached the start or end of the gallery
+            const maxScrollLeft = this.element.scrollWidth - this.element.clientWidth;
+            
+            // Check if we're at the start
+            if (newScrollLeft <= 0 && this.scrollDirection < 0) {
+                if (!this.reachedStart && this.options.bounceAnimationEnabled) {
+                    this.triggerBounceAnimation('left');
+                }
+                this.element.scrollLeft = 0;
+                this.reachedStart = true;
+            } 
+            // Check if we're at the end
+            else if (newScrollLeft >= maxScrollLeft && this.scrollDirection > 0) {
+                if (!this.reachedEnd && this.options.bounceAnimationEnabled) {
+                    this.triggerBounceAnimation('right');
+                }
+                this.element.scrollLeft = maxScrollLeft;
+                this.reachedEnd = true;
+            } 
+            // Normal scrolling
+            else {
+                this.element.scrollLeft = newScrollLeft;
+                this.reachedStart = false;
+                this.reachedEnd = false;
+            }
+        }
+        
+        // Continue animation loop
+        this.animationFrame = requestAnimationFrame(this.updateScroll.bind(this));
+    }
+    
+    /**
+     * Trigger bounce animation at gallery ends
+     * @param {string} direction - Direction of bounce ('left' or 'right')
+     */
+    triggerBounceAnimation(direction) {
+        // Find the first or last work item
+        const itemIndex = direction === 'left' ? 0 : this.workItems.length - 1;
+        const item = this.workItems[itemIndex];
+        
+        if (item && item.element) {
+            // Remove any existing bounce animations
+            item.element.classList.remove('bounce-animation-left');
+            item.element.classList.remove('bounce-animation-right');
+            
+            // Force reflow to restart animation
+            void item.element.offsetWidth;
+            
+            // Add appropriate bounce animation based on direction
+            if (direction === 'left') {
+                item.element.classList.add('bounce-animation-left');
+            } else {
+                item.element.classList.add('bounce-animation-right');
+            }
+            
+            // Remove classes after animation completes
+            setTimeout(() => {
+                if (item.element) {
+                    item.element.classList.remove('bounce-animation-left');
+                    item.element.classList.remove('bounce-animation-right');
+                }
+            }, 600); // Animation duration
+        }
     }
     
 /**
@@ -169,7 +299,7 @@ addWorkItem(workConfig) {
     });
     
     return itemElement;
-}z
+}
     
     /**
      * Remove a work item
