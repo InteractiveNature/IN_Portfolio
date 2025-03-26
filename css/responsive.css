@@ -21,9 +21,10 @@
         font-size: calc(var(--font-size-3xl) + 1vw);
     }
     
+    /*
     .work-item {
         width: calc(40% - 2rem);
-    }
+    }*/
 }
 
 /* Tablets and Small Laptops */
@@ -149,66 +150,62 @@
         display: none;
     }
     
-    /* Convert to vertical layout for mobile */
-    .work-grid {
-        position: relative; /* Reset to relative positioning on mobile */
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-md);
-        height: auto;
-        overflow-x: visible;
-        align-items: center;
-        margin: 0;
-        padding: 1rem 0;
-        width: 100%; /* Reset width */
-        margin-left: 0; /* Reset margin */
-        padding-left: 0; /* Reset padding */
-        margin-top: 0; /* Reset margin-top */
-    }
+/* Maintain horizontal layout for mobile but with adjusted sizing */
+.work-grid {
+    position: relative;
+    display: flex;
+    flex-direction: row; /* Keep horizontal layout */
+    height: 280px; /* Adjusted height for mobile to match new item height */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    padding: 1.5rem 0;
+    width: 100vw; /* Use viewport width to extend full width */
+    margin-left: calc(-50vw + 50%); /* Center the gallery and extend to edges */
+    padding-left: 1rem; /* Add padding to offset the negative margin */
+    margin-top: -1rem; /* Move gallery up to overlap with title */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scroll-snap-type: x mandatory; /* Enable snap scrolling */
+}
     
-    /* Restore section header margin on mobile */
-    .work .section-header {
-        margin-bottom: var(--spacing-md);
-    }
+/* Restore section header margin on mobile */
+.work .section-header {
+    margin-bottom: var(--spacing-md);
+}
     
+.work-item-link {
+    min-width: 320px; /* Increased width for mobile */
+    height: 240px; /* Adjusted height for mobile */
+    margin-right: -40px; /* Less overlap on mobile */
+    transform: none; /* Reset transform */
+    padding: 0 10px; /* Reduced padding */
+    transition: all 0.4s ease; /* Faster transition for mobile */
+    scroll-snap-align: center; /* Enable snap points */
+}
     
-    .work-item-link {
-        width: 100%;
-        max-width: 400px; /* Larger on mobile */
-        min-width: unset;
-        height: auto;
-        aspect-ratio: 1.5/1; /* Maintain horizontally stretched aspect ratio */
-        margin-right: 0;
-        margin-bottom: var(--spacing-lg); /* More space between items */
-        transform: none !important;
-        padding: 0;
-        transition: all 0.5s ease; /* Simpler transition for mobile */
-    }
+.work-item {
+    height: 100%;
+    border-radius: 50%; /* Keep circular shape */
+    aspect-ratio: 1.6/1; /* Wider aspect ratio for mobile */
+}
     
-    .work-item {
-        height: 100%;
-        border-radius: 50%; /* Keep circular shape */
-        aspect-ratio: 1.2/1; /* Maintain horizontally stretched circle */
-    }
+/* Simplified hover effects for mobile */
+.work-grid:hover .work-item-link {
+    transform: translateX(-20px); /* Reduced shift */
+}
     
-    /* Reset hover effects for mobile */
-    .work-grid:hover .work-item-link {
-        transform: none !important;
-    }
+.work-item-link:hover {
+    transform: scale(1.05) !important; /* Just scale without translation */
+    z-index: 10; /* Ensure hovered item is on top */
+}
     
-    .work-item-link:hover {
-        transform: none !important;
-        z-index: 1;
-        /* No scale on mobile, so no need to adjust transform origin */
-    }
+.work-item-link:hover ~ .work-item-link {
+    transform: translateX(40px); /* Reduced push for items after hovered */
+}
     
-    .work-item-link:hover ~ .work-item-link {
-        transform: none !important;
-    }
-    
-    .work-overlay {
-        opacity: 1;
-    }
+.work-overlay {
+    opacity: 0.9; /* Slightly transparent overlay on mobile */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3));
+    padding-bottom: 2rem; /* Less padding on mobile */
+}
     
     .services-grid {
         grid-template-columns: 1fr;
@@ -296,12 +293,20 @@
         display: none;
     }
     
+    /* Adjust work items for small phones */
+    .work-grid {
+        height: 260px; /* Slightly smaller height for small phones */
+        padding-left: 0.5rem; /* Less padding on small screens */
+    }
+    
     .work-item-link {
-        max-width: 100%;
+        min-width: 280px; /* Smaller width for very small screens */
+        height: 220px; /* Smaller height for very small screens */
+        margin-right: -30px; /* Less overlap on small screens */
     }
     
     .work-item {
-        aspect-ratio: 16/10; /* Slightly taller aspect ratio for very small screens */
+        aspect-ratio: 1.8/1; /* Even wider aspect ratio for very small screens */
     }
     
     .work-overlay h3 {
@@ -333,6 +338,21 @@
     
     .contact-form {
         padding: var(--spacing-sm);
+    }
+    
+    /* Further optimize work items for extra small screens */
+    .work-grid {
+        height: 240px; /* Even smaller height for extra small phones */
+    }
+    
+    .work-item-link {
+        min-width: 260px; /* Smaller width for extra small screens */
+        height: 200px; /* Smaller height for extra small screens */
+        margin-right: -25px; /* Even less overlap on extra small screens */
+    }
+    
+    .work-item {
+        aspect-ratio: 2/1; /* Widest aspect ratio for extra small screens */
     }
 }
 
@@ -377,4 +397,3 @@
     img {
         max-width: 100%;
     }
-}

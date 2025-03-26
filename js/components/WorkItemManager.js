@@ -29,7 +29,7 @@ export class WorkItemManager {
         this.reachedEnd = false;
         this.initialized = false;
         this.animationFrame = null;
-        this.isMobile = window.innerWidth <= 768;
+        this.isMobile = false; // Removed mobile check to enable horizontal scrolling on all devices
     }
     
     /**
@@ -46,8 +46,8 @@ export class WorkItemManager {
         this.initialized = true;
         this.setupEventListeners();
         
-        // Initialize edge scrolling if enabled and not on mobile
-        if (this.options.edgeScrollEnabled && !this.isMobile) {
+        // Initialize edge scrolling if enabled (for all devices)
+        if (this.options.edgeScrollEnabled) {
             this.initializeEdgeScrolling();
         }
         
@@ -114,7 +114,7 @@ export class WorkItemManager {
                 this.mouseY <= expandedBottom
             ) {
                 // Check if mouse is near the left or right edge with expanded detection
-                if (this.options.edgeScrollEnabled && !this.isMobile) {
+                if (this.options.edgeScrollEnabled) {
                     // Left edge - expanded detection area
                     if (this.mouseX < rect.left + this.options.edgeScrollThreshold) {
                         this.startScrolling(-1); // Scroll left
@@ -139,12 +139,16 @@ export class WorkItemManager {
      * Handle window resize
      */
     handleResize() {
-        // Update mobile status
-        this.isMobile = window.innerWidth <= 768;
-        
-        // Disable edge scrolling on mobile
-        if (this.isMobile) {
-            this.stopScrolling();
+        // Keep edge scrolling enabled on all devices
+        // Just update dimensions and layout as needed
+        if (this.element) {
+            // Recalculate dimensions if needed
+            const maxScrollLeft = this.element.scrollWidth - this.element.clientWidth;
+            
+            // Reset scroll position if we're at the end and resize makes content shorter
+            if (this.element.scrollLeft > maxScrollLeft) {
+                this.element.scrollLeft = maxScrollLeft > 0 ? maxScrollLeft : 0;
+            }
         }
     }
     
@@ -169,6 +173,47 @@ export class WorkItemManager {
                 this.reachedEnd = false;
             }
         });
+        
+        // Add touch event support for mobile devices
+        this.initializeTouchScrolling();
+    }
+    
+    /**
+     * Initialize touch scrolling for mobile devices
+     */
+    initializeTouchScrolling() {
+        if (!this.element) return;
+        
+        let startX, startScrollLeft, isDragging = false;
+        
+        // Touch start event
+        this.element.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].pageX;
+            startScrollLeft = this.element.scrollLeft;
+            isDragging = true;
+        }, { passive: true });
+        
+        // Touch move event
+        this.element.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            
+            // Calculate distance moved
+            const x = e.touches[0].pageX;
+            const distance = startX - x;
+            
+            // Scroll the container
+            this.element.scrollLeft = startScrollLeft + distance;
+        }, { passive: true });
+        
+        // Touch end event
+        this.element.addEventListener('touchend', () => {
+            isDragging = false;
+        }, { passive: true });
+        
+        // Touch cancel event
+        this.element.addEventListener('touchcancel', () => {
+            isDragging = false;
+        }, { passive: true });
     }
     
     /**

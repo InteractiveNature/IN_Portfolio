@@ -179,6 +179,32 @@
     overflow: hidden; /* Ensure content doesn't cause horizontal scrolling */
 }
 
+/* Mobile scroll indicator */
+.work::after {
+    content: '';
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'%3E%3C/path%3E%3Cpath d='M12 5l7 7-7 7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+}
+
+/* Only show scroll indicator on mobile */
+@media (max-width: 768px) {
+    .work::after {
+        opacity: 0.7;
+        animation: scrollIndicator 1.5s ease-in-out infinite;
+    }
+}
+
 /* Reduce space between section header and gallery */
 .work .section-header {
     margin-bottom: 0; /* Remove bottom margin to allow overlap */

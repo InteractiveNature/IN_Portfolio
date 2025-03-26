@@ -44,6 +44,28 @@
     animation: slideInFromLeft 0.4s ease forwards;
 }
 
+/* Mobile scroll indicator animation */
+@keyframes scrollIndicator {
+    0% { transform: translateX(0); opacity: 0.7; }
+    50% { transform: translateX(20px); opacity: 1; }
+    100% { transform: translateX(0); opacity: 0.7; }
+}
+
+.scroll-indicator {
+    animation: scrollIndicator 1.5s ease-in-out infinite;
+}
+
+/* Snap scrolling animation */
+@keyframes snapFeedback {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.snap-feedback {
+    animation: snapFeedback 0.3s ease-out;
+}
+
 /* Logo animation */
 @keyframes rotate-accent {
     0% {
