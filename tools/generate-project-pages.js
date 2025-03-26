@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Configuration
-const IMAGES_DIR = 'Images';
+const IMAGES_DIR = 'assets/projects';
 const PROJECTS_DIR = 'projects';
 const DEFAULT_HERO_IMAGE_INDEX = 0; // Use the first image as hero by default
 
@@ -66,15 +66,12 @@ if (specificFolder) {
     if (fs.existsSync(folderPath) && fs.statSync(folderPath).isDirectory()) {
         processImageFolder(specificFolder);
         console.log(`Processed folder: ${specificFolder}`);
-        
-        // Skip updating the navigation menu when processing a single folder
-        console.log('Skipping navigation menu update for single folder processing.');
     } else {
         console.error(`Error: Folder "${specificFolder}" not found in ${IMAGES_DIR} directory.`);
         process.exit(1);
     }
 } else {
-    // Get all directories in the Images folder
+    // Get all directories in the projects folder
     const imageFolders = fs.readdirSync(IMAGES_DIR, { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())
         .map(dirent => dirent.name);
@@ -85,9 +82,6 @@ if (specificFolder) {
     imageFolders.forEach(folderName => {
         processImageFolder(folderName);
     });
-
-    // Update the navigation menu in script.js
-    updateNavigationMenu(imageFolders);
 }
 
 console.log('Project page generation complete!');
@@ -170,200 +164,183 @@ function generateProjectHTML(projectName, projectSlug, heroImage, mediaFiles) {
         file.toLowerCase().includes('hero')
     );
     
-    // Create gallery items HTML
-    const galleryItemsHTML = mediaFiles.map(file => {
-        const filePath = `../Images/${projectName}/${file}`;
-        const fileExt = path.extname(file).toLowerCase();
-        
-        // Handle different file types
-        if (fileExt === '.mp4') {
-            // Look for a thumbnail with the same name as the video but with .jpg, .jpeg, or .png extension
-            let thumbnailPath = null;
-            const baseName = file.substring(0, file.lastIndexOf('.'));
-            
-            // Check if thumbnail exists with same name but different extension
-            ['jpg', 'jpeg', 'png'].forEach(ext => {
-                const potentialThumbnail = `${baseName}.${ext}`;
-                if (mediaFiles.includes(potentialThumbnail)) {
-                    thumbnailPath = `../Images/${projectName}/${potentialThumbnail}`;
-                }
-            });
-            
-            return `
-            <div class="gallery-item video local-video">
-                <div class="video-thumbnail" data-video-path="${filePath}">
-                    <video src="${filePath}" preload="metadata" poster="${thumbnailPath || ''}" muted></video>
-                    <div class="play-button"></div>
-                </div>
-            </div>`;
-        } else if (['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(fileExt)) {
-            return `
-            <div class="gallery-item image">
-                <img src="${filePath}" alt="${displayName} - ${file}">
-            </div>`;
-        }
-        
-        // Default case (shouldn't happen with our filtering)
-        return '';
-    }).join('\n');
+    // Create gallery items HTML - limit to first 4 images for template
+    const galleryImages = mediaFiles.filter(file => {
+        const ext = path.extname(file).toLowerCase();
+        return ['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(ext);
+    }).slice(0, 4);
     
-    // Generate hero section HTML based on whether we have a hero video
-    let heroSectionHTML;
-    if (heroVideoFile) {
-        // Use video as hero
-        heroSectionHTML = `
-    <section class="project-hero">
-        <video class="project-hero-video" autoplay loop muted playsinline>
-            <source src="../Images/${projectName}/${heroVideoFile}" type="video/mp4">
-            <!-- Fallback to static image if video doesn't load -->
-            <div class="project-hero-image" style="background-image: url('../Images/${projectName}/${heroImage}');"></div>
-        </video>
-        <div class="project-hero-content">
-            <h1>${displayName}</h1>
-            <p class="project-subtitle">Project Location | Year</p>
-        </div>
-    </section>`;
-    } else {
-        // Use static image as hero
-        heroSectionHTML = `
-    <section class="project-hero">
-        <div class="project-hero-image"></div>
-        <div class="project-hero-content">
-            <h1>${displayName}</h1>
-            <p class="project-subtitle">Project Location | Year</p>
-        </div>
-    </section>`;
+    // Create gallery HTML placeholders
+    let galleryHTML = '';
+    galleryImages.forEach((file, index) => {
+        const filePath = `../assets/projects/${projectName}/${file}`;
+        galleryHTML += `                <div class="gallery-item">
+                    <img src="${filePath}" alt="${displayName} - ${index + 1}">
+                </div>\n`;
+    });
+    
+    // If we don't have enough images, add placeholders
+    for (let i = galleryImages.length; i < 4; i++) {
+        galleryHTML += `                <div class="gallery-item">
+                    <img src="[GALLERY_IMAGE_${i + 1}]" alt="[GALLERY_CAPTION_${i + 1}]">
+                </div>\n`;
     }
     
-    // Generate the full HTML
+    // Determine hero media (video or image)
+    const heroMediaPath = heroVideoFile 
+        ? `../assets/projects/${projectName}/${heroVideoFile}`
+        : `../assets/projects/${projectName}/${heroImage}`;
+    
+    // Generate the full HTML based on the template
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${displayName} - Media + Architecture + Ecology</title>
-    <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../project-styles.css">
+    <title>${displayName} | Interactive Nature Studio</title>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        /* Project-specific styles */
-        ${!heroVideoFile ? `.project-hero-image {
-            background-image: url('../Images/${projectName}/${heroImage}');
-        }` : '/* Using video hero */'}
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/project.css">
 </head>
 <body>
-    <!-- Header will be loaded via JavaScript -->
+    <div class="cursor"></div>
+    
+    <svg class="bg-lines" width="100%" height="100%" preserveAspectRatio="none">
+        <!-- Lines will be generated by JS -->
+    </svg>
+    
+    <!-- SVG Definitions for gradients -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <linearGradient id="iridescent-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#C4D4DB" />
+                <stop offset="25%" stop-color="#9AC2C9" />
+                <stop offset="50%" stop-color="#B19CD9" />
+                <stop offset="75%" stop-color="#93B5C6" />
+                <stop offset="100%" stop-color="#BFD8BD" />
+            </linearGradient>
+        </defs>
+    </svg>
+    
+    <header>
+        <div class="logo">
+            <a href="../index.html">
+              <img src="../assets/images/InteractiveNatureLogo.png" alt="Interactive Nature Logo">
+            </a>
+          </div>
+        <nav>
+            <ul>
+                <li><a href="../index.html#services">Services</a></li>
+                <li><a href="../index.html#work">Work</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-${heroSectionHTML}
-
-    <section class="project-details">
-        <div class="project-info">
-            <div class="project-description">
-                <h2>About the Project</h2>
-                <p>This is an automatically generated project page for ${displayName}. Please update this description with details about the project.</p>
-                
-                <p>You can add multiple paragraphs to describe the project's concept, goals, and outcomes.</p>
-                
-                <p>Consider including information about the technologies used, the creative process, and any challenges or insights gained during the project.</p>
-            </div>
+    <!-- Hero Section with Project Title -->
+    <section class="project-hero">
+        <div class="project-hero-media">
+            ${heroVideoFile 
+                ? `<!-- Project video -->
+            <video autoplay muted loop>
+                <source src="${heroMediaPath}" type="video/mp4">
+            </video>`
+                : `<!-- Project image -->
+            <img src="${heroMediaPath}" alt="${displayName}">`
+            }
             
-            <div class="project-metadata">
-                <div class="metadata-item">
-                    <h3>Role</h3>
-                    <p>Lead Designer, Creative Technologist</p>
+            <!-- Overlay with gradient for better text visibility -->
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="project-hero-content">
+            <h1>${displayName}</h1>
+            <p class="project-subtitle">Interactive Experience</p>
+        </div>
+    </section>
+
+    <!-- Project Overview Section -->
+    <section class="project-overview">
+        <div class="container">
+            <div class="project-info">
+                <div class="project-info-left">
+                    <h2>Project Overview</h2>
+                    <p>This is an automatically generated project page for ${displayName}. Please update this description with details about the project.</p>
+                    <p>You can add multiple paragraphs to describe the project's concept, goals, and outcomes.</p>
                 </div>
-                <div class="metadata-item">
-                    <h3>Technologies</h3>
-                    <p>Add technologies used here</p>
-                </div>
-                <div class="metadata-item">
-                    <h3>Duration</h3>
-                    <p>Project duration</p>
-                </div>
-                <div class="metadata-item">
-                    <h3>Collaborators</h3>
-                    <p>List collaborators here</p>
+                <div class="project-info-right">
+                    <div class="project-meta">
+                        <div class="meta-item">
+                            <h3>Client</h3>
+                            <p>Client Name</p>
+                        </div>
+                        <div class="meta-item">
+                            <h3>Year</h3>
+                            <p>2025</p>
+                        </div>
+                        <div class="meta-item">
+                            <h3>Services</h3>
+                            <p>Interactive Installation</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Project Gallery Section -->
     <section class="project-gallery">
-        <h2>Gallery</h2>
-        <div class="gallery-grid">
-            ${galleryItemsHTML}
-            
-            <!-- Vimeo embed placeholder - replace VIDEO_ID with actual Vimeo ID -->
-            <!-- 
-            <div class="gallery-item video vimeo-video">
-                <div class="video-thumbnail" data-vimeo-id="VIDEO_ID">
-                    <img src="https://vumbnail.com/VIDEO_ID.jpg" alt="Vimeo video">
-                    <div class="play-button"></div>
-                </div>
+        <div class="container">
+            <h2>Gallery</h2>
+            <div class="gallery-grid">
+                <!-- Gallery images -->
+${galleryHTML}
             </div>
-            -->
         </div>
     </section>
 
-    <div class="lightbox">
-        <div class="lightbox-content">
-            <span class="close-lightbox">&times;</span>
-            <div class="lightbox-media-container"></div>
+    <!-- Next Project Section -->
+    <section class="next-project">
+        <div class="container">
+            <h2>Next Project</h2>
+            <a href="#" class="next-project-link">
+                <div class="next-project-preview">
+                    <img src="../assets/images/portfolio/lightForest.jpg" alt="Next Project">
+                    <div class="next-project-overlay">
+                        <h3>Next Project</h3>
+                        <span class="next-arrow">→</span>
+                    </div>
+                </div>
+            </a>
         </div>
-    </div>
+    </section>
 
     <footer>
-        <div class="project-navigation">
-            <a href="#" class="prev-project">Previous Project</a>
-            <a href="../index.html" class="back-to-home">Back to Home</a>
-            <a href="#" class="next-project">Next Project</a>
+        <div class="container">
+            <div class="footer-links">
+                <a href="../index.html#services">Services</a>
+                <a href="../index.html#work">Work</a>
+                <a href="../index.html#about">About</a>
+                <a href="../index.html#contact">Contact</a>
+            </div>
+            <p>&copy; 2025 Interactive Nature Studio. All rights reserved.</p>
         </div>
-        <p>&copy; 2025 Michael Bruner</p>
     </footer>
 
-    <script src="../script.js"></script>
-    <script src="../project-script.js"></script>
+    <!-- JavaScript Files -->
+    <script type="module" src="../js/main.js"></script>
+    <script type="module" src="../js/project.js"></script>
 </body>
 </html>`;
 }
 
-/**
- * Update the navigation menu in script.js to include all projects
- * @param {string[]} imageFolders - Array of image folder names
- */
-function updateNavigationMenu(imageFolders) {
-    console.log('Updating navigation menu...');
-    
-    // Read the current script.js file
-    const scriptPath = 'script.js';
-    let scriptContent = fs.readFileSync(scriptPath, 'utf8');
-    
-    // Find the dropdown menu section in the script
-    const dropdownMenuRegex = /<ul class="dropdown-menu">([\s\S]*?)<\/ul>/;
-    const match = scriptContent.match(dropdownMenuRegex);
-    
-    if (!match) {
-        console.log('Could not find dropdown menu in script.js, skipping menu update.');
-        return;
-    }
-    
-    // Generate menu items for all projects
-    const menuItems = imageFolders.map(folderName => {
-        const projectSlug = folderName.toLowerCase().replace(/\s+/g, '-');
-        const displayName = folderName;
-        
-        return `                        <li><a href="\${isProjectPage ? '../projects/${projectSlug}.html' : 'projects/${projectSlug}.html'}" class="project-link" data-project="${projectSlug}">${displayName}</a></li>`;
-    }).join('\n');
-    
-    // Replace the dropdown menu content
-    const newDropdownMenu = `<ul class="dropdown-menu">\n${menuItems}\n                    </ul>`;
-    const updatedScript = scriptContent.replace(dropdownMenuRegex, newDropdownMenu);
-    
-    // Write the updated script back to file
-    fs.writeFileSync(scriptPath, updatedScript);
-    
-    console.log('Navigation menu updated successfully.');
-}
+// Navigation menu function removed as per requirements

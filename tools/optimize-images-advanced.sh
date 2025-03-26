@@ -159,7 +159,7 @@ fi
 
 # Process JPG files
 echo -e "${YELLOW}Processing JPEG files...${NC}"
-eval find "\"$TARGET_DIR\"" $FIND_DEPTH -type f \( -iname "\"*.jpg\"" -o -iname "\"*.jpeg\"" \) -print0 | while IFS= read -r -d '' file; do
+find "$TARGET_DIR" $FIND_DEPTH -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | while IFS= read -r -d '' file; do
     # Get original file size
     ORIGINAL_SIZE=$(stat -f %z "$file")
     TOTAL_ORIGINAL_SIZE=$((TOTAL_ORIGINAL_SIZE + ORIGINAL_SIZE))
@@ -231,7 +231,7 @@ done
 
 # Process PNG files
 echo -e "${YELLOW}Processing PNG files...${NC}"
-eval find "\"$TARGET_DIR\"" $FIND_DEPTH -type f -iname "\"*.png\"" -print0 | while IFS= read -r -d '' file; do
+find "$TARGET_DIR" $FIND_DEPTH -type f \( -iname "*.png" \) -print0 | while IFS= read -r -d '' file; do
     # Get original file size
     ORIGINAL_SIZE=$(stat -f %z "$file")
     TOTAL_ORIGINAL_SIZE=$((TOTAL_ORIGINAL_SIZE + ORIGINAL_SIZE))
