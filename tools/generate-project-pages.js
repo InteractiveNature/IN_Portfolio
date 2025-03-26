@@ -4,8 +4,8 @@ const fs = require('fs');
 const path = require('path');
 
 // Configuration
-const IMAGES_DIR = 'assets/projects';
-const PROJECTS_DIR = 'projects';
+const IMAGES_DIR = '../assets/projects';
+const PROJECTS_DIR = '../projects';
 const DEFAULT_HERO_IMAGE_INDEX = 0; // Use the first image as hero by default
 
 // Parse command line arguments
@@ -93,16 +93,24 @@ console.log('Project page generation complete!');
 function processImageFolder(folderName) {
     console.log(`Processing folder: ${folderName}`);
     
-    // Get all media files in the folder (images and videos)
+    // Check if the "selected" subfolder exists
     const folderPath = path.join(IMAGES_DIR, folderName);
-    const mediaFiles = fs.readdirSync(folderPath)
+    const selectedFolderPath = path.join(folderPath, 'selected');
+    
+    if (!fs.existsSync(selectedFolderPath) || !fs.statSync(selectedFolderPath).isDirectory()) {
+        console.log(`No "selected" subfolder found in ${folderName}, skipping.`);
+        return;
+    }
+    
+    // Get all media files in the "selected" subfolder (images and videos)
+    const mediaFiles = fs.readdirSync(selectedFolderPath)
         .filter(file => {
             const ext = path.extname(file).toLowerCase();
             return ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.mp4'].includes(ext);
         });
     
     if (mediaFiles.length === 0) {
-        console.log(`No media files found in ${folderName}, skipping.`);
+        console.log(`No media files found in ${folderName}/selected, skipping.`);
         return;
     }
     
@@ -173,7 +181,7 @@ function generateProjectHTML(projectName, projectSlug, heroImage, mediaFiles) {
     // Create gallery HTML placeholders
     let galleryHTML = '';
     galleryImages.forEach((file, index) => {
-        const filePath = `../assets/projects/${projectName}/${file}`;
+        const filePath = `../assets/projects/${projectName}/selected/${file}`;
         galleryHTML += `                <div class="gallery-item">
                     <img src="${filePath}" alt="${displayName} - ${index + 1}">
                 </div>\n`;
@@ -188,8 +196,8 @@ function generateProjectHTML(projectName, projectSlug, heroImage, mediaFiles) {
     
     // Determine hero media (video or image)
     const heroMediaPath = heroVideoFile 
-        ? `../assets/projects/${projectName}/${heroVideoFile}`
-        : `../assets/projects/${projectName}/${heroImage}`;
+        ? `../assets/projects/${projectName}/selected/${heroVideoFile}`
+        : `../assets/projects/${projectName}/selected/${heroImage}`;
     
     // Generate the full HTML based on the template
     return `<!DOCTYPE html>
