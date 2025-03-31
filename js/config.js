@@ -64,7 +64,7 @@ export const workConfig = {
             description: 'Interactive installation for SXSW 2024',
             imageSrc: 'assets/images/portfolio/giftingSolon.jpg',
             imageAlt: 'Interactive Installation for SXSW',
-            projectUrl: 'projects/responsive-light-forest.html'
+            projectUrl: 'projects/sxsw_install.html'
         },
         {
             title: 'Experimental Immersive Art',
@@ -78,7 +78,7 @@ export const workConfig = {
             description: 'Music visualization for Broadway theatre production',
             imageSrc: 'assets/images/portfolio/onceuponaonemoreTime.png',
             imageAlt: 'VFX and Content Production',
-            projectUrl: 'projects/responsive-light-forest.html'
+            projectUrl: 'projects/ouomt.html'
         },
         {
             title: 'Interactive Digital Experience',
