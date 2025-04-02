@@ -60,7 +60,7 @@ export const workConfig = {
     subheading: 'A selection of our most innovative spatial experiences and technical productions.',
     projects: [
         {
-            title: 'Delta SXSW Installation',
+            title: 'SXSW Installation',
             description: 'Interactive installation for SXSW 2024',
             imageSrc: 'assets/images/portfolio/giftingSolon.jpg',
             imageAlt: 'Interactive Installation for SXSW',
@@ -106,7 +106,7 @@ export const workConfig = {
             description: 'Interactive NFT art installation',
             imageSrc: 'assets/images/portfolio/boredApes.jpg',
             imageAlt: 'Bored Apes NFT Installation',
-            projectUrl: 'projects/project-template.html'
+            projectUrl: 'projects/interactiveart_ba.html'
         }
     ]
 };

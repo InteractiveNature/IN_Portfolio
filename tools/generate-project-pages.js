@@ -172,11 +172,11 @@ function generateProjectHTML(projectName, projectSlug, heroImage, mediaFiles) {
         file.toLowerCase().includes('hero')
     );
     
-    // Create gallery items HTML - limit to first 4 images for template
+    // Create gallery items HTML - include all images
     const galleryImages = mediaFiles.filter(file => {
         const ext = path.extname(file).toLowerCase();
         return ['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(ext);
-    }).slice(0, 4);
+    });
     
     // Create gallery HTML placeholders
     let galleryHTML = '';
@@ -187,12 +187,6 @@ function generateProjectHTML(projectName, projectSlug, heroImage, mediaFiles) {
                 </div>\n`;
     });
     
-    // If we don't have enough images, add placeholders
-    for (let i = galleryImages.length; i < 4; i++) {
-        galleryHTML += `                <div class="gallery-item">
-                    <img src="[GALLERY_IMAGE_${i + 1}]" alt="[GALLERY_CAPTION_${i + 1}]">
-                </div>\n`;
-    }
     
     // Determine hero media (video or image)
     const heroMediaPath = heroVideoFile 
