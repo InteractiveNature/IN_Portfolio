@@ -62,7 +62,7 @@ export const workConfig = {
         {
             title: 'SXSW Installation',
             description: 'Interactive installation for SXSW 2024',
-            imageSrc: 'assets/images/portfolio/giftingSolon.jpg',
+            imageSrc: 'assets/images/portfolio/giftingSolon.png',
             imageAlt: 'Interactive Installation for SXSW',
             projectUrl: 'projects/sxsw_install.html',
             isNDA: true 
