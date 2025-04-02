@@ -145,7 +145,7 @@ export const clientsConfig = {
         },
         {
             name: 'Ru Paul',
-            logoSrc: 'assets/images/clients/ruPaul.png',
+            logoSrc: 'assets/images/clients/RuPaul.png',
             logoAlt: 'RuPaulsDragRace'
         },
         {
