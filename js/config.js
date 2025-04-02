@@ -95,11 +95,18 @@ export const workConfig = {
             projectUrl: 'projects/project-template.html'
         },
         {
+            title: 'CryptoPunks Interactive Art',
+            description: 'Interactive NFT art installation',
+            imageSrc: 'assets/projects/InteractiveArt_CP/selected/blacklight.png',
+            imageAlt: 'Cryptopunks NFT Installation',
+            projectUrl: 'projects/interactiveart_cp.html'
+        },
+        {
             title: 'Little Mermaid Projection',
             description: 'Projection mapping for theatrical production',
             imageSrc: 'assets/images/portfolio/LittleMermaid.jpg',
             imageAlt: 'Little Mermaid Projection Mapping',
-            projectUrl: 'projects/responsive-light-forest.html'
+            projectUrl: 'projects/thelittlemermaid.html'
         },
         {
             title: 'Bored Apes Installation',
