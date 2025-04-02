@@ -16,9 +16,12 @@ import {
     clientsConfig, 
     effectsConfig
 } from './config.js';
+import { PasswordModal } from './components/PasswordModal.js';
 
 // Initialize when DOM content is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Load NDA protection styles
+    loadNdaProtectionStyles();
     // Create theme manager and theme selector
     const themeManager = new ThemeManager();
     themeManager.initFromSavedPreference();
@@ -157,6 +160,19 @@ function initializeClientLogos() {
     
     // Initialize scroll animation
     clientsManager.init();
+}
+
+/**
+ * Load NDA protection styles
+ */
+function loadNdaProtectionStyles() {
+    // Check if styles are already loaded
+    if (!document.querySelector('link[href="css/nda-protection.css"]')) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'css/nda-protection.css';
+        document.head.appendChild(link);
+    }
 }
 
 /**

@@ -64,14 +64,16 @@ export const workConfig = {
             description: 'Interactive installation for SXSW 2024',
             imageSrc: 'assets/images/portfolio/giftingSolon.jpg',
             imageAlt: 'Interactive Installation for SXSW',
-            projectUrl: 'projects/sxsw_install.html'
+            projectUrl: 'projects/sxsw_install.html',
+            isNDA: true 
         },
         {
             title: 'Experimental Immersive Art',
             description: '3D Renderings for interactive art installation',
             imageSrc: 'assets/images/portfolio/lightForest.jpg',
             imageAlt: '3D renderings and design',
-            projectUrl: 'projects/project-template.html'
+            projectUrl: 'projects/project-template.html',
+            isNDA: true // NDA protected project
         },
         {
             title: 'Broadway Musical VFX Design',
@@ -92,14 +94,16 @@ export const workConfig = {
             description: 'Immersive digital environment for Meta',
             imageSrc: 'assets/images/portfolio/Meta_Cave.png',
             imageAlt: 'Meta Cave Digital Environment',
-            projectUrl: 'projects/project-template.html'
+            projectUrl: 'projects/project-template.html',
+            isNDA: true // NDA protected project
         },
         {
             title: 'CryptoPunks Interactive Art',
             description: 'Interactive NFT art installation',
             imageSrc: 'assets/projects/InteractiveArt_CP/selected/blacklight.png',
             imageAlt: 'Cryptopunks NFT Installation',
-            projectUrl: 'projects/interactiveart_cp.html'
+            projectUrl: 'projects/interactiveart_cp.html',
+            isNDA: true // NDA protected project
         },
         {
             title: 'Little Mermaid Projection',
@@ -113,7 +117,8 @@ export const workConfig = {
             description: 'Interactive NFT art installation',
             imageSrc: 'assets/images/portfolio/boredApes.jpg',
             imageAlt: 'Bored Apes NFT Installation',
-            projectUrl: 'projects/interactiveart_ba.html'
+            projectUrl: 'projects/interactiveart_ba.html',
+            isNDA: true // NDA protected project
         }
     ]
 };

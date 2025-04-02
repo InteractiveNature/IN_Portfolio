@@ -1,7 +1,10 @@
 /**
  * WorkItemManager.js - Manages work/portfolio items for Interactive Nature website
- * Updated with horizontal gallery layout and interactive features
+ * Updated with horizontal gallery layout, interactive features, and NDA project protection
  */
+
+import { PasswordModal } from './PasswordModal.js';
+import { isAuthenticated } from '../auth.js';
 
 export class WorkItemManager {
     /**
@@ -30,6 +33,9 @@ export class WorkItemManager {
         this.initialized = false;
         this.animationFrame = null;
         this.isMobile = false; // Removed mobile check to enable horizontal scrolling on all devices
+        
+        // Create password modal for NDA projects
+        this.passwordModal = new PasswordModal();
     }
     
     /**
@@ -315,17 +321,23 @@ export class WorkItemManager {
 addWorkItem(workConfig) {
     if (!this.element) return null;
     
-    const { title, description, imageSrc, imageAlt, projectUrl } = workConfig;
+    const { title, description, imageSrc, imageAlt, projectUrl, isNDA } = workConfig;
+    
+    // Generate a unique ID for the project based on title
+    const projectId = title.toLowerCase().replace(/\s+/g, '-');
+    
+    // Default project URL if not provided
+    const url = projectUrl || `projects/${projectId}.html`;
     
     // Create work item HTML with link to project page
     const itemHTML = `
-        <a href="${projectUrl || `projects/${title.toLowerCase().replace(/\s+/g, '-')}.html`}" class="work-item-link">
-            <div class="work-item">
+        <a href="${url}" class="work-item-link" data-project-id="${projectId}" ${isNDA ? 'data-nda="true"' : ''}>
+            <div class="work-item ${isNDA ? 'nda-project' : ''}">
                 <img src="${imageSrc}" alt="${imageAlt || title}">
                 <div class="work-overlay">
                     <h3>${title}</h3>
                     <p>${description}</p>
-                    <span class="view-project">View Project</span>
+                    <span class="view-project">${isNDA ? 'Protected Project' : 'View Project'}</span>
                 </div>
             </div>
         </a>
@@ -337,10 +349,29 @@ addWorkItem(workConfig) {
     // Get the added item element
     const itemElement = this.element.lastElementChild;
     
+    // Add click handler for NDA projects
+    if (isNDA) {
+        itemElement.addEventListener('click', (e) => {
+            // Prevent default navigation
+            e.preventDefault();
+            
+            // Check if already authenticated
+            if (isAuthenticated(projectId)) {
+                // Allow navigation if authenticated
+                window.location.href = url;
+            } else {
+                // Show password modal
+                this.passwordModal.show(projectId, url);
+            }
+        });
+    }
+    
     // Add to work items array
     this.workItems.push({
         config: workConfig,
-        element: itemElement
+        element: itemElement,
+        projectId: projectId,
+        isNDA: !!isNDA
     });
     
     return itemElement;
@@ -412,6 +443,11 @@ addWorkItem(workConfig) {
         if (this.options.mouseInteractionEnabled) {
             document.removeEventListener('mousemove', this.handleMouseMove.bind(this));
             window.removeEventListener('resize', this.handleResize.bind(this));
+        }
+        
+        // Destroy password modal
+        if (this.passwordModal) {
+            this.passwordModal.destroy();
         }
         
         this.initialized = false;

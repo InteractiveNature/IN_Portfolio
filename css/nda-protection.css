@@ -1,0 +1,201 @@
+/* NDA Project Protection Styles */
+
+/* Blur effect for NDA project images on hover */
+.work-item.nda-project img {
+    transition: filter var(--transition-normal);
+}
+
+.work-item.nda-project:hover img {
+    filter: blur(10px);
+}
+
+/* Password Modal */
+.password-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 10, 10, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.password-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: var(--primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.password-modal.active .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.modal-content h2 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-md);
+    background: linear-gradient(
+        90deg, 
+        var(--gradient-color-1), 
+        var(--gradient-color-2) var(--gradient-position), 
+        var(--gradient-color-3), 
+        var(--gradient-color-4), 
+        var(--gradient-color-5)
+    );
+    background-size: 300% 100%;
+    background-position-x: var(--gradient-position);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.modal-content p {
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.8;
+}
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: var(--spacing-sm);
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    color: var(--text);
+    font-family: var(--font-family);
+    margin-bottom: var(--spacing-md);
+}
+
+.modal-content input:focus {
+    outline: none;
+    border-image: linear-gradient(
+        90deg, 
+        var(--gradient-color-1), 
+        var(--gradient-color-2), 
+        var(--gradient-color-3), 
+        var(--gradient-color-4), 
+        var(--gradient-color-5)
+    ) 1;
+}
+
+.modal-content .error-message {
+    color: #ff4d4d;
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-md);
+    min-height: 20px;
+}
+
+.modal-content button {
+    align-self: flex-start;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    color: var(--gradient-color-1);
+    background: transparent;
+    border-radius: 0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    z-index: 1;
+    border: 1px solid;
+    border-image: linear-gradient(
+        90deg, 
+        var(--gradient-color-1), 
+        var(--gradient-color-2), 
+        var(--gradient-color-3), 
+        var(--gradient-color-4), 
+        var(--gradient-color-5)
+    ) 1;
+}
+
+.modal-content button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(196, 212, 219, 0.5);
+}
+
+.modal-content button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg, 
+        var(--gradient-color-1), 
+        var(--gradient-color-2) var(--gradient-position), 
+        var(--gradient-color-3), 
+        var(--gradient-color-4), 
+        var(--gradient-color-5)
+    );
+    background-size: 300% 100%;
+    background-position-x: var(--gradient-position);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.modal-content button:hover::before {
+    opacity: 0.1;
+}
+
+.close-modal {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: var(--font-size-xl);
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity var(--transition-normal);
+    z-index: 10; /* Ensure it's above other content */
+}
+
+.close-modal:hover {
+    opacity: 1;
+}
+
+/* Shake animation for error feedback */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .modal-content {
+        padding: var(--spacing-lg);
+    }
+    
+    .modal-content h2 {
+        font-size: var(--font-size-xl);
+    }
+}
