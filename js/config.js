@@ -60,20 +60,12 @@ export const workConfig = {
     subheading: 'A selection of our most innovative spatial experiences and technical productions.',
     projects: [
         {
-            title: 'SXSW Installation',
-            description: 'Interactive installation for SXSW 2024',
+            title: 'SXSW Installations',
+            description: 'Interactive Installations for SXSW 2024',
             imageSrc: 'assets/images/portfolio/giftingSolon.png',
             imageAlt: 'Interactive Installation for SXSW',
             projectUrl: 'projects/sxsw_install.html',
             isNDA: true 
-        },
-        {
-            title: 'Experimental Immersive Art',
-            description: '3D Renderings for interactive art installation',
-            imageSrc: 'assets/images/portfolio/lightForest.jpg',
-            imageAlt: '3D renderings and design',
-            projectUrl: 'projects/project-template.html',
-            isNDA: true // NDA protected project
         },
         {
             title: 'Broadway Musical VFX Design',
@@ -83,43 +75,94 @@ export const workConfig = {
             projectUrl: 'projects/ouomt.html'
         },
         {
-            title: 'Interactive Digital Experience',
-            description: 'Interactive Experience and Fabrication for Event',
-            imageSrc: 'assets/images/portfolio/zoltar.jpg',
-            imageAlt: 'Interactive Experience for Event Fabrication',
-            projectUrl: 'projects/responsive-light-forest.html'
+            title: 'Fusebox',
+            description: 'Event Production, Projection Mapping',
+            imageSrc: 'assets/images/portfolio/Fusebash2025.jpg',
+            imageAlt: 'Fusebox Event Production',
+            projectUrl: 'projects/fusebox.html'
         },
         {
-            title: 'VR / Virtual Production Mineshaft',
-            description: 'Immersive digital environment and virtual production set',
-            imageSrc: 'assets/images/portfolio/Meta_Cave.png',
-            imageAlt: 'Mineshaft Digital Environment',
-            projectUrl: 'projects/project-template.html',
+            title: 'Interactive Fortune Telling Experience',
+            description: 'Interactive Experience Development and Fabrication for Event',
+            imageSrc: 'assets/images/portfolio/zoltar.jpg',
+            imageAlt: 'Custom Interactive Experience and Fabrication for Event',
+            projectUrl: 'projects/discountfortunes.html'
+        },
+        {
+            title: 'Interactive Digital Art',
+            description: 'Interactive NFT art installation',
+            imageSrc: 'assets/images/portfolio/boredApes.jpg',
+            imageAlt: 'Bored Apes NFT Installation',
+            projectUrl: 'projects/interactiveart_ba.html',
             isNDA: true // NDA protected project
         },
         {
-            title: 'CryptoPunks Interactive Art',
-            description: 'Interactive NFT art installation',
+            title: 'Fimfo',
+            description: 'Techincal Drafting and Fabrication',
+            imageSrc: 'assets/images/portfolio/fimfoDoor.jpg',
+            imageAlt: 'Camp Fimfo Drafting and Fabrication',
+            projectUrl: 'projects/fimfo.html'
+        },
+        {
+            title: 'Little Mermaid Projection',
+            description: 'Projection mapping and content for immersive theatrical production',
+            imageSrc: 'assets/images/portfolio/LittleMermaid.jpg',
+            imageAlt: 'Little Mermaid Projection Mapping',
+            projectUrl: 'projects/thelittlemermaid.html'
+        },
+        {
+            title: 'VR / Virtual Production Mineshaft Experience',
+            description: 'Immersive digital environment for VR and virtual production set',
+            imageSrc: 'assets/images/portfolio/explosion.jpg',
+            imageAlt: 'Mineshaft Digital Environment',
+            projectUrl: 'projects/virtualproducion_vr_cave.html',
+            isNDA: true // NDA protected project
+        },
+        {
+            title: 'Digital Environments for Virtual Production',
+            description: 'Immersive digital environment and virtual production set',
+            imageSrc: 'assets/images/portfolio/office.png',
+            imageAlt: 'Virtual Production Digital Environment',
+            projectUrl: 'projects/cisco_virtualproduction.html',
+            isNDA: true // NDA protected project
+        },
+        {
+            title: 'Experimental Immersive Art Installtion',
+            description: '3D Renderings for interactive art installation',
+            imageSrc: 'assets/images/portfolio/lightForest.jpg',
+            imageAlt: '3D renderings and design',
+            projectUrl: 'projects/project-template.html',
+        },
+        {
+            title: 'Interactive Art Web Experience',
+            description: 'Interactive NFT art Web Experience',
             imageSrc: 'assets/projects/InteractiveArt_CP/selected/blacklight.png',
             imageAlt: 'Cryptopunks NFT Installation',
             projectUrl: 'projects/interactiveart_cp.html',
             isNDA: true // NDA protected project
         },
         {
-            title: 'Little Mermaid Projection',
-            description: 'Projection mapping for theatrical production',
-            imageSrc: 'assets/images/portfolio/LittleMermaid.jpg',
-            imageAlt: 'Little Mermaid Projection Mapping',
-            projectUrl: 'projects/thelittlemermaid.html'
+            title: 'Interactive Living Painting',
+            description: 'R&D Living Painting Project',
+            imageSrc: 'assets/images/portfolio/sleepingDumbledore2.jpg',
+            imageAlt: 'Living Painting',
+            projectUrl: 'projects/interactiveart_wb.html',
+            isNDA: true
         },
         {
-            title: 'Bored Apes Installation',
-            description: 'Interactive NFT art installation',
-            imageSrc: 'assets/images/portfolio/boredApes.jpg',
-            imageAlt: 'Bored Apes NFT Installation',
-            projectUrl: 'projects/interactiveart_ba.html',
-            isNDA: true // NDA protected project
-        }
+            title: 'AIMI',
+            description: 'Technical Drafting, 3D Rendering, Previsualization',
+            imageSrc: 'assets/images/portfolio/MainSpaceRender.png',
+            imageAlt: 'AIMI',
+            projectUrl: 'projects/aimi.html'
+        },
+        {
+            title: 'Datura',
+            description: 'Audio Reactive Projection mapping for Event',
+            imageSrc: 'assets/images/portfolio/party2.png',
+            imageAlt: 'Detura Projection Mapping and Content',
+            projectUrl: 'projects/datura.html'
+        },
     ]
 };
 
