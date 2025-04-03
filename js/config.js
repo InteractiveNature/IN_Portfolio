@@ -271,7 +271,8 @@ export const effectsConfig = {
         autoplay: true,
         loop: true,
         playbackRate: 0.8, // Slightly slower for better visual effect
-        opacity: 0.7
+        opacity: 0.7,
+        mobileFallbackImage: 'assets/images/portfolio/lightForest.jpg' // Fallback image for mobile devices
     },
     workItems: {
         // The key change: Disable floating and mouse interaction temporarily

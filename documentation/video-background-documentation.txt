@@ -124,8 +124,44 @@ If you need to adjust the CSS styling:
 
 ### Mobile Compatibility
 - Test on multiple devices
-- Ensure the `playsinline` attribute is present
+- Ensure the `playsinline` and `webkit-playsinline` attributes are present
 - Keep video files small for faster loading on mobile networks
+- Provide a WebM format as an alternative source for better compatibility
+- Use the mobileFallbackImage option in config.js as a fallback for devices where video doesn't play
+
+### Mobile Fallback Image
+The site now includes a fallback image system for mobile devices where video playback might fail:
+
+1. In `js/config.js`, the `videoBackground` section includes a `mobileFallbackImage` option:
+   ```javascript
+   videoBackground: {
+       // other options...
+       mobileFallbackImage: 'assets/images/portfolio/lightForest.jpg' // Fallback image for mobile
+   }
+   ```
+
+2. You can change this to any image path in your assets folder.
+
+3. The fallback system automatically detects mobile devices and attempts to play the video.
+   If playback fails, it will display the fallback image instead.
+
+### WebM Format Recommendation
+For optimal cross-browser compatibility, it's recommended to provide both WebM and MP4 formats:
+
+1. Convert your MP4 video to WebM format using a tool like FFmpeg:
+   ```
+   ffmpeg -i assets/videos/groundStarsTracking.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -c:a libopus assets/videos/groundStarsTracking.webm
+   ```
+
+2. The HTML already includes both formats with WebM first (preferred):
+   ```html
+   <video autoplay loop muted playsinline webkit-playsinline preload="auto" crossorigin="anonymous">
+       <source src="assets/videos/groundStarsTracking.webm" type="video/webm">
+       <source src="assets/videos/groundStarsTracking.mp4" type="video/mp4">
+   </video>
+   ```
+
+3. If you don't have the WebM version yet, please create it for better mobile compatibility.
 
 ## Advanced: JavaScript Control
 
