@@ -32,7 +32,26 @@ function initializeBackgroundEffects() {
 function checkNdaProtection() {
     // Get project ID from the URL
     const path = window.location.pathname;
-    const projectId = path.substring(path.lastIndexOf('/') + 1).replace('.html', '');
+    const urlProjectId = path.substring(path.lastIndexOf('/') + 1).replace('.html', '');
+    
+    // Get project title from the page
+    const projectTitle = document.querySelector('.project-hero-content h1')?.textContent || '';
+    
+    // Generate project ID from title (same logic as in WorkItemManager.js)
+    // This ensures consistency between the project ID used in the work grid and the project page
+    const titleProjectId = projectTitle.toLowerCase().replace(/\s+/g, '-');
+    
+    // Try both project IDs to ensure compatibility
+    const projectIds = [urlProjectId, titleProjectId];
+    let isUserAuthenticated = false;
+    
+    // Check if user is authenticated with any of the possible project IDs
+    for (const id of projectIds) {
+        if (isAuthenticated(id)) {
+            isUserAuthenticated = true;
+            break;
+        }
+    }
     
     // Check if this project has NDA protection
     const isNdaProject = document.body.hasAttribute('data-nda');
@@ -42,17 +61,34 @@ function checkNdaProtection() {
         loadNdaProtectionStyles();
         
         // Check if user is authenticated for this project
-        if (!isAuthenticated(projectId)) {
+        if (!isUserAuthenticated) {
             // Create password modal
             const passwordModal = new PasswordModal({
-                onAuthenticated: () => {
+                onAuthenticated: (authenticatedProjectId) => {
+                    // Also authenticate with the URL-based project ID to ensure compatibility
+                    if (authenticatedProjectId !== urlProjectId) {
+                        sessionStorage.setItem(`auth_${urlProjectId}`, 'true');
+                    }
+                    if (authenticatedProjectId !== titleProjectId && titleProjectId) {
+                        sessionStorage.setItem(`auth_${titleProjectId}`, 'true');
+                    }
+                    
                     // Reload the page after authentication
                     window.location.reload();
                 }
             });
             
-            // Show password modal
+            // Show password modal with the title-based project ID (if available) or URL-based ID
+            const projectId = titleProjectId || urlProjectId;
             passwordModal.show(projectId, window.location.href);
+        } else {
+            // Ensure any existing password modals are removed from the DOM
+            const existingModals = document.querySelectorAll('.password-modal');
+            existingModals.forEach(modal => {
+                if (modal && modal.parentNode) {
+                    modal.parentNode.removeChild(modal);
+                }
+            });
         }
     }
 }
@@ -153,7 +189,19 @@ function initializeNextProject() {
                     window.location.href = nextProjectLink.href;
                 } else {
                     // Create password modal
-                    const passwordModal = new PasswordModal();
+                    const passwordModal = new PasswordModal({
+                        onAuthenticated: (authenticatedProjectId) => {
+                            // Also authenticate with the URL-based project ID to ensure compatibility
+                            const url = nextProjectLink.href;
+                            const urlProjectId = url.substring(url.lastIndexOf('/') + 1).replace('.html', '');
+                            if (authenticatedProjectId !== urlProjectId) {
+                                sessionStorage.setItem(`auth_${urlProjectId}`, 'true');
+                            }
+                            
+                            // Navigate to the next project after authentication
+                            window.location.href = nextProjectLink.href;
+                        }
+                    });
                     
                     // Show password modal
                     passwordModal.show(projectId, nextProjectLink.href);

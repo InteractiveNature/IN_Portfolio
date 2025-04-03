@@ -360,7 +360,19 @@ addWorkItem(workConfig) {
                 // Allow navigation if authenticated
                 window.location.href = url;
             } else {
-                // Show password modal
+                // Show password modal with onAuthenticated callback
+                this.passwordModal = new PasswordModal({
+                    onAuthenticated: (authenticatedProjectId) => {
+                        // Also authenticate with the URL-based project ID to ensure compatibility
+                        const urlProjectId = url.substring(url.lastIndexOf('/') + 1).replace('.html', '');
+                        if (authenticatedProjectId !== urlProjectId) {
+                            sessionStorage.setItem(`auth_${urlProjectId}`, 'true');
+                        }
+                        
+                        // Navigate to the project after authentication
+                        window.location.href = url;
+                    }
+                });
                 this.passwordModal.show(projectId, url);
             }
         });

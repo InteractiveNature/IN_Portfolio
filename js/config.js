@@ -90,10 +90,10 @@ export const workConfig = {
             projectUrl: 'projects/responsive-light-forest.html'
         },
         {
-            title: 'Meta Cave Experience',
-            description: 'Immersive digital environment for Meta',
+            title: 'VR / Virtual Production Mineshaft',
+            description: 'Immersive digital environment and virtual production set',
             imageSrc: 'assets/images/portfolio/Meta_Cave.png',
-            imageAlt: 'Meta Cave Digital Environment',
+            imageAlt: 'Mineshaft Digital Environment',
             projectUrl: 'projects/project-template.html',
             isNDA: true // NDA protected project
         },

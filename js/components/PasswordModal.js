@@ -117,9 +117,19 @@ export class PasswordModal {
     
     /**
      * Hide the modal
+     * @param {boolean} removeFromDOM - Whether to remove the modal from the DOM
      */
-    hide() {
+    hide(removeFromDOM = false) {
         this.modalElement.classList.remove('active');
+        
+        if (removeFromDOM) {
+            // Wait for the animation to complete before removing from DOM
+            setTimeout(() => {
+                if (this.modalElement && this.modalElement.parentNode) {
+                    this.modalElement.parentNode.removeChild(this.modalElement);
+                }
+            }, 300); // Match the transition duration
+        }
     }
     
     /**
@@ -139,7 +149,8 @@ export class PasswordModal {
         const isValid = authenticateUser(this.currentProjectId, password);
         
         if (isValid) {
-            this.hide();
+            // Hide and remove the modal from DOM after successful authentication
+            this.hide(true);
             
             // Call onAuthenticated callback if provided
             if (typeof this.options.onAuthenticated === 'function') {
@@ -159,7 +170,7 @@ export class PasswordModal {
      * Handle close button click
      */
     handleClose() {
-        this.hide();
+        this.hide(true); // Remove from DOM when closed
     }
     
     /**
@@ -169,7 +180,7 @@ export class PasswordModal {
     handleKeyDown(e) {
         // Close modal on Escape key
         if (e.key === 'Escape' && this.modalElement.classList.contains('active')) {
-            this.hide();
+            this.hide(true); // Remove from DOM when closed with Escape key
         }
     }
     
