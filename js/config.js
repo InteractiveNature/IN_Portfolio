@@ -104,6 +104,13 @@ export const workConfig = {
             projectUrl: 'projects/fimfo.html'
         },
         {
+            title: 'Audio Reactive Immserive Lighting Installation',
+            description: 'Design, Installation, Audio Reactive Lighting',
+            imageSrc: 'assets/images/portfolio/fullframe.jpg',
+            imageAlt: 'Audio Reactive Immserive Lighting Installation',
+            projectUrl: 'projects/siesmic.html'
+        },
+        {
             title: 'Little Mermaid Projection',
             description: 'Projection mapping and content for immersive theatrical production',
             imageSrc: 'assets/images/portfolio/LittleMermaid.jpg',
@@ -127,11 +134,12 @@ export const workConfig = {
             isNDA: true // NDA protected project
         },
         {
-            title: 'Experimental Immersive Art Installtion',
-            description: '3D Renderings for interactive art installation',
-            imageSrc: 'assets/images/portfolio/lightForest.jpg',
-            imageAlt: '3D renderings and design',
-            projectUrl: 'projects/project-template.html',
+            title: 'Digital Environments for Virtual Production',
+            description: 'Immersive digital environment and virtual production set',
+            imageSrc: 'assets/images/portfolio/frontWall.png',
+            imageAlt: 'Virtual Production Digital Environment',
+            projectUrl: 'projects/dragshow_bb_jp.html',
+            isNDA: true // NDA protected project
         },
         {
             title: 'Interactive Art Web Experience',
@@ -230,6 +238,11 @@ export const clientsConfig = {
             name: 'KFMA',
             logoSrc: 'assets/images/clients/kfma.png',
             logoAlt: 'KFMA'
+        },
+        {
+            name: 'Northgate Resorts',
+            logoSrc: 'assets/images/clients/northgate.png',
+            logoAlt: 'Northgate Resorts'
         },
         {
             name: 'Red Velvet',
