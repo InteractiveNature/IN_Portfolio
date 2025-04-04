@@ -32,6 +32,7 @@ export class WorkItemManager {
         this.reachedEnd = false;
         this.initialized = false;
         this.animationFrame = null;
+        this.momentumRAF = null; // For momentum scrolling animation
         this.isMobile = false; // Removed mobile check to enable horizontal scrolling on all devices
         
         // Create password modal for NDA projects
@@ -185,41 +186,105 @@ export class WorkItemManager {
     }
     
     /**
-     * Initialize touch scrolling for mobile devices
+     * Initialize touch scrolling for mobile devices with improved responsiveness
      */
     initializeTouchScrolling() {
         if (!this.element) return;
         
         let startX, startScrollLeft, isDragging = false;
+        let lastX, lastTimestamp, velocity = 0;
         
         // Touch start event
         this.element.addEventListener('touchstart', (e) => {
             startX = e.touches[0].pageX;
+            lastX = startX;
+            lastTimestamp = Date.now();
             startScrollLeft = this.element.scrollLeft;
             isDragging = true;
+            velocity = 0;
+            
+            // Stop any ongoing momentum scrolling
+            if (this.momentumRAF) {
+                cancelAnimationFrame(this.momentumRAF);
+                this.momentumRAF = null;
+            }
         }, { passive: true });
         
         // Touch move event
         this.element.addEventListener('touchmove', (e) => {
             if (!isDragging) return;
             
-            // Calculate distance moved
+            // Calculate distance moved with improved sensitivity
             const x = e.touches[0].pageX;
-            const distance = startX - x;
+            const distance = (startX - x) * 1.2; // Multiply by 1.2 for more responsive movement
             
-            // Scroll the container
+            // Calculate velocity for momentum scrolling
+            const now = Date.now();
+            const elapsed = now - lastTimestamp;
+            if (elapsed > 0) {
+                velocity = (lastX - x) / elapsed; // pixels per millisecond
+            }
+            lastX = x;
+            lastTimestamp = now;
+            
+            // Scroll the container with smooth behavior
             this.element.scrollLeft = startScrollLeft + distance;
         }, { passive: true });
         
-        // Touch end event
+        // Touch end event with momentum scrolling
         this.element.addEventListener('touchend', () => {
+            if (!isDragging) return;
+            
             isDragging = false;
+            
+            // Apply momentum scrolling if velocity is significant
+            if (Math.abs(velocity) > 0.1) {
+                this.applyMomentumScrolling(velocity);
+            }
         }, { passive: true });
         
         // Touch cancel event
         this.element.addEventListener('touchcancel', () => {
             isDragging = false;
+            if (this.momentumRAF) {
+                cancelAnimationFrame(this.momentumRAF);
+                this.momentumRAF = null;
+            }
         }, { passive: true });
+    }
+    
+    /**
+     * Apply momentum scrolling after touch end
+     * @param {number} initialVelocity - Initial velocity in pixels per millisecond
+     */
+    applyMomentumScrolling(initialVelocity) {
+        if (!this.element) return;
+        
+        let velocity = initialVelocity * 15; // Scale up for better effect
+        let timestamp = Date.now();
+        const friction = 0.95; // Friction coefficient (lower = more friction)
+        
+        const animate = () => {
+            const now = Date.now();
+            const elapsed = now - timestamp;
+            timestamp = now;
+            
+            // Apply friction to slow down over time
+            velocity *= friction;
+            
+            // Calculate distance to scroll
+            const delta = velocity * elapsed;
+            
+            // Apply scroll
+            this.element.scrollLeft += delta;
+            
+            // Continue animation if velocity is still significant
+            if (Math.abs(velocity) > 0.05) {
+                this.momentumRAF = requestAnimationFrame(animate);
+            }
+        };
+        
+        this.momentumRAF = requestAnimationFrame(animate);
     }
     
     /**
@@ -449,6 +514,10 @@ addWorkItem(workConfig) {
     destroy() {
         if (this.animationFrame) {
             cancelAnimationFrame(this.animationFrame);
+        }
+        
+        if (this.momentumRAF) {
+            cancelAnimationFrame(this.momentumRAF);
         }
         
         // Remove event listeners

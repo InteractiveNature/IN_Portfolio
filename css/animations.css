@@ -55,6 +55,25 @@
     animation: scrollIndicator 1.5s ease-in-out infinite;
 }
 
+/* Momentum scrolling animations */
+@keyframes momentumScrollLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100px); }
+}
+
+@keyframes momentumScrollRight {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100px); }
+}
+
+.momentum-scroll-left {
+    animation: momentumScrollLeft 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+.momentum-scroll-right {
+    animation: momentumScrollRight 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
 /* Snap scrolling animation */
 @keyframes snapFeedback {
     0% { transform: scale(1); }

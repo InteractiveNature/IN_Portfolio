@@ -150,12 +150,12 @@
         display: none;
     }
     
-/* Maintain horizontal layout for mobile but with adjusted sizing */
+/* Maintain horizontal layout for mobile but with improved sizing and interaction */
 .work-grid {
     position: relative;
     display: flex;
     flex-direction: row; /* Keep horizontal layout */
-    height: 280px; /* Adjusted height for mobile to match new item height */
+    height: 500px; /* Increased height to accommodate taller items */
     overflow-x: auto; /* Enable horizontal scrolling */
     padding: 1.5rem 0;
     width: 100vw; /* Use viewport width to extend full width */
@@ -163,7 +163,7 @@
     padding-left: 1rem; /* Add padding to offset the negative margin */
     margin-top: -1rem; /* Move gallery up to overlap with title */
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    scroll-snap-type: x mandatory; /* Enable snap scrolling */
+    scroll-snap-type: x proximity; /* Changed from mandatory to proximity for smoother scrolling */
 }
     
 /* Restore section header margin on mobile */
@@ -172,11 +172,11 @@
 }
     
 .work-item-link {
-    min-width: 320px; /* Increased width for mobile */
-    height: 240px; /* Adjusted height for mobile */
-    margin-right: -40px; /* Less overlap on mobile */
+    min-width: 400px; /* Increased width for better visibility */
+    height: 480px; /* Approximately doubled height for better visibility */
+    margin-right: -60px; /* Increased overlap to reduce negative space */
     transform: none; /* Reset transform */
-    padding: 0 10px; /* Reduced padding */
+    padding: 0 15px; /* Slightly increased padding */
     transition: all 0.4s ease; /* Faster transition for mobile */
     scroll-snap-align: center; /* Enable snap points */
 }
@@ -184,7 +184,7 @@
 .work-item {
     height: 100%;
     border-radius: 50%; /* Keep circular shape */
-    aspect-ratio: 1.6/1; /* Wider aspect ratio for mobile */
+    aspect-ratio: 1.2/1; /* Adjusted aspect ratio for better proportions */
 }
     
 /* Simplified hover effects for mobile */
@@ -202,9 +202,10 @@
 }
     
 .work-overlay {
-    opacity: 0.9; /* Slightly transparent overlay on mobile */
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3));
-    padding-bottom: 2rem; /* Less padding on mobile */
+    opacity: 0.8; /* More transparent overlay to show more of the image */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 70%); /* Gradient fades faster */
+    padding-bottom: 3rem; /* Increased padding to move text further down */
+    justify-content: flex-end; /* Ensure title stays at bottom */
 }
     
     .services-grid {
@@ -295,18 +296,18 @@
     
     /* Adjust work items for small phones */
     .work-grid {
-        height: 260px; /* Slightly smaller height for small phones */
+        height: 450px; /* Adjusted height for small phones but still much taller than before */
         padding-left: 0.5rem; /* Less padding on small screens */
     }
     
     .work-item-link {
-        min-width: 280px; /* Smaller width for very small screens */
-        height: 220px; /* Smaller height for very small screens */
-        margin-right: -30px; /* Less overlap on small screens */
+        min-width: 360px; /* Increased width for very small screens */
+        height: 430px; /* Increased height for very small screens */
+        margin-right: -50px; /* Adjusted overlap on small screens */
     }
     
     .work-item {
-        aspect-ratio: 1.8/1; /* Even wider aspect ratio for very small screens */
+        aspect-ratio: 1.3/1; /* Adjusted aspect ratio for small screens */
     }
     
     .work-overlay h3 {
@@ -342,17 +343,17 @@
     
     /* Further optimize work items for extra small screens */
     .work-grid {
-        height: 240px; /* Even smaller height for extra small phones */
+        height: 400px; /* Adjusted height for extra small phones but still much taller than before */
     }
     
     .work-item-link {
-        min-width: 260px; /* Smaller width for extra small screens */
-        height: 200px; /* Smaller height for extra small screens */
-        margin-right: -25px; /* Even less overlap on extra small screens */
+        min-width: 320px; /* Adjusted width for extra small screens */
+        height: 380px; /* Increased height for extra small screens */
+        margin-right: -40px; /* Adjusted overlap on extra small screens */
     }
     
     .work-item {
-        aspect-ratio: 2/1; /* Widest aspect ratio for extra small screens */
+        aspect-ratio: 1.4/1; /* Adjusted aspect ratio for extra small screens */
     }
 }
 
