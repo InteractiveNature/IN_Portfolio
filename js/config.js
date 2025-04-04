@@ -106,7 +106,7 @@ export const workConfig = {
         {
             title: 'Audio Reactive Immserive Lighting Installation',
             description: 'Design, Installation, Audio Reactive Lighting',
-            imageSrc: 'assets/images/portfolio/fullframe.jpg',
+            imageSrc: 'assets/images/portfolio/fullframe2.jpg',
             imageAlt: 'Audio Reactive Immserive Lighting Installation',
             projectUrl: 'projects/siesmic.html'
         },
