@@ -29,8 +29,11 @@ export class VideoBackground {
      * @returns {boolean} - Whether the device is mobile
      */
     checkIfMobile() {
+        // More comprehensive mobile detection
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
-               (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+               (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) ||
+               ('ontouchstart' in window) || // Touch events are available
+               (navigator.maxTouchPoints > 0); // Device supports touch
     }
     
     /**
@@ -42,6 +45,14 @@ export class VideoBackground {
         
         if (!this.video) {
             console.warn('Video background element not found');
+            return this;
+        }
+        
+        // If we're on mobile and have a fallback image, use it immediately
+        // This is a more aggressive approach to ensure mobile devices see the fallback
+        if (this.isMobile && this.options.mobileFallbackImage) {
+            console.log('Mobile device detected, using fallback image immediately');
+            this.useFallbackImage();
             return this;
         }
         
@@ -132,6 +143,11 @@ export class VideoBackground {
         // If we have a fallback image and we're on mobile, use it
         if (this.options.mobileFallbackImage && this.isMobile) {
             this.useFallbackImage();
+        } else if (this.options.mobileFallbackImage && !this.video.playing) {
+            // Also use fallback if video isn't playing, even if not detected as mobile
+            // This helps catch edge cases where mobile detection fails
+            console.log('Video not playing, using fallback image');
+            this.useFallbackImage();
         }
     }
     
@@ -187,6 +203,16 @@ export class VideoBackground {
                     this.handleVideoError();
                 });
             }, { once: true });
+            
+            // Check if video is actually playing after a short delay
+            // This catches cases where the play() promise resolves but video doesn't actually play
+            setTimeout(() => {
+                // Check if video is actually playing
+                if (this.video.paused || this.video.currentTime === 0) {
+                    console.warn('Video not playing after delay, using fallback');
+                    this.handleVideoError();
+                }
+            }, 1000); // Longer delay to ensure we give enough time for video to start
         }
         
         // Try to play the video
