@@ -221,7 +221,7 @@ a {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: -1; /* Ensure this is above the video background (-2) */
+    z-index: 0; /* Increased from -1 to ensure visibility on all devices */
     opacity: 0.2;
     pointer-events: none;
 }

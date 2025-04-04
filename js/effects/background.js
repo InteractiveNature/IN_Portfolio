@@ -15,6 +15,8 @@ export class Background {
             lineColor: '#e60000',
             distortionFactor: 90,
             enabled: true,
+            mobileNumLines: 20, // Reduced number of lines for mobile
+            mobileDistortionFactor: 40, // Reduced distortion for mobile
             ...options
         };
         
@@ -22,12 +24,28 @@ export class Background {
         this.lines = [];
         this.mouseX = 0;
         this.mouseY = 0;
+        this.touchX = window.innerWidth / 2; // Default touch position
+        this.touchY = window.innerHeight / 2; // Default touch position
+        this.isMobile = this.checkIfMobile();
         this.windowWidth = window.innerWidth;
         this.windowHeight = window.innerHeight;
         this.animationFrame = null;
+        this.autoAnimationOffset = 0; // For automatic animation on mobile
+        this.autoAnimationSpeed = 0.5; // Speed of automatic animation
         
         // Calculate horizontal lines based on aspect ratio to create squares
         this.horizontalLines = this.calculateHorizontalLines();
+    }
+    
+    /**
+     * Check if the current device is mobile
+     * @returns {boolean} - Whether the device is mobile
+     */
+    checkIfMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+               (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) ||
+               ('ontouchstart' in window) || // Touch events are available
+               (navigator.maxTouchPoints > 0); // Device supports touch
     }
     
     /**
@@ -51,9 +69,18 @@ export class Background {
             return this;
         }
         
+        // Use fewer lines on mobile for better performance
+        if (this.isMobile) {
+            this.options.numLines = this.options.mobileNumLines;
+            this.options.distortionFactor = this.options.mobileDistortionFactor;
+            this.horizontalLines = this.calculateHorizontalLines();
+        }
+        
         this.createBackgroundLines();
         this.setupEventListeners();
         this.animateBackground();
+        
+        console.log(`Background grid initialized with ${this.options.numLines} lines, mobile: ${this.isMobile}`);
         
         return this;
     }
@@ -108,6 +135,10 @@ export class Background {
         // Track mouse position
         document.addEventListener('mousemove', this.handleMouseMove.bind(this));
         
+        // Add touch event support for mobile
+        document.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
+        document.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true });
+        
         // Handle window resize
         window.addEventListener('resize', this.handleResize.bind(this));
         
@@ -118,6 +149,28 @@ export class Background {
                 this.createBackgroundLines();
             }
         }, 5000);
+    }
+    
+    /**
+     * Handle touch start event
+     * @param {TouchEvent} e - Touch event
+     */
+    handleTouchStart(e) {
+        if (e.touches.length > 0) {
+            this.touchX = e.touches[0].clientX;
+            this.touchY = e.touches[0].clientY;
+        }
+    }
+    
+    /**
+     * Handle touch move event
+     * @param {TouchEvent} e - Touch event
+     */
+    handleTouchMove(e) {
+        if (e.touches.length > 0) {
+            this.touchX = e.touches[0].clientX;
+            this.touchY = e.touches[0].clientY;
+        }
     }
     
     /**
@@ -136,6 +189,19 @@ export class Background {
         this.windowWidth = window.innerWidth;
         this.windowHeight = window.innerHeight;
         
+        // Update mobile status on resize
+        this.isMobile = this.checkIfMobile();
+        
+        // Adjust number of lines based on device type
+        if (this.isMobile) {
+            this.options.numLines = this.options.mobileNumLines;
+            this.options.distortionFactor = this.options.mobileDistortionFactor;
+        } else {
+            // Restore original values from options
+            this.options.numLines = this.options.numLines;
+            this.options.distortionFactor = this.options.distortionFactor;
+        }
+        
         // Recalculate horizontal lines when window is resized
         this.horizontalLines = this.calculateHorizontalLines();
         
@@ -144,7 +210,7 @@ export class Background {
     }
     
     /**
-     * Update background effect based on mouse position
+     * Update background effect based on mouse/touch position
      */
     updateBackgroundEffect() {
         const lines = this.svg.querySelectorAll('line');
@@ -156,11 +222,32 @@ export class Background {
             return; // Skip this frame and wait for next
         }
         
-        lines.forEach((line, index) => {
-            // Calculate distortion based on mouse position
-            const distortionX = (this.mouseX / this.windowWidth - 0.5) * distortionFactor;
-            const distortionY = (this.mouseY / this.windowHeight - 0.5) * distortionFactor;
+        // For mobile devices, use touch position or auto-animation if no touch
+        let posX, posY;
+        if (this.isMobile) {
+            // Update auto-animation offset for continuous movement
+            this.autoAnimationOffset += this.autoAnimationSpeed;
             
+            // Use touch position if available, otherwise use auto-animation
+            if (this.touchX !== null && this.touchY !== null) {
+                posX = this.touchX;
+                posY = this.touchY;
+            } else {
+                // Create a circular motion for auto-animation
+                posX = this.windowWidth / 2 + Math.sin(this.autoAnimationOffset * 0.01) * (this.windowWidth / 4);
+                posY = this.windowHeight / 2 + Math.cos(this.autoAnimationOffset * 0.01) * (this.windowHeight / 4);
+            }
+        } else {
+            // Use mouse position for desktop
+            posX = this.mouseX;
+            posY = this.mouseY;
+        }
+        
+        // Calculate distortion based on position
+        const distortionX = (posX / this.windowWidth - 0.5) * distortionFactor;
+        const distortionY = (posY / this.windowHeight - 0.5) * distortionFactor;
+        
+        lines.forEach((line, index) => {
             // Apply different distortion to horizontal and vertical lines
             if (line.getAttribute('y1') === line.getAttribute('y2')) {
                 // Horizontal line - use horizontalLines for calculation

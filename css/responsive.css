@@ -150,6 +150,12 @@
         display: none;
     }
     
+    /* Enhance background grid visibility on mobile */
+    .bg-lines {
+        opacity: 0.3; /* Slightly higher opacity for better visibility */
+        z-index: 0; /* Ensure it's above other elements */
+    }
+    
 /* Maintain horizontal layout for mobile but with improved sizing and interaction */
 .work-grid {
     position: relative;
@@ -364,8 +370,19 @@
         color: black;
     }
     
-    .cursor, .bg-lines, .work-overlay {
+    .cursor, .work-overlay {
         display: none;
+    }
+    
+    /* Only hide grid for printing, not for screen display */
+    @media screen {
+        .bg-lines {
+            display: block !important; /* Force display for screen */
+        }
+    }
+    
+    .bg-lines {
+        display: none; /* Hide only for print */
     }
     
     .work-item {
