@@ -122,8 +122,24 @@ function initializeWorkItems() {
         edgeScrollThreshold: 150,
         edgeScrollSpeed: 5,
         hoverInteractionEnabled: true,
-        bounceAnimationEnabled: true
+        bounceAnimationEnabled: true,
+        maxMomentumVelocity: 4, // Limit maximum scrolling speed on mobile
+        momentumScaleFactor: 15 // Scale factor for initial momentum velocity
     });
+    
+    // Expose workItemManager to global scope for easy adjustment via console
+    window.workItemManager = workItemManager;
+    
+    // Add helper function to adjust momentum settings
+    window.adjustMomentumSettings = function(maxVelocity, scaleFactor) {
+        if (maxVelocity !== undefined) {
+            workItemManager.setMaxMomentumVelocity(maxVelocity);
+        }
+        if (scaleFactor !== undefined) {
+            workItemManager.setMomentumScaleFactor(scaleFactor);
+        }
+        console.log(`Current settings: maxVelocity=${workItemManager.options.maxMomentumVelocity}, scaleFactor=${workItemManager.options.momentumScaleFactor}`);
+    };
     
     // Clear existing content
     if (workItemManager.element) {

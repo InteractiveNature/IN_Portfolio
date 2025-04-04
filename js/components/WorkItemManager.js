@@ -19,6 +19,8 @@ export class WorkItemManager {
             edgeScrollSpeed: 5, // Pixels per frame to scroll
             hoverInteractionEnabled: true, // Enable hover interactions
             bounceAnimationEnabled: true, // Enable bounce animation at gallery ends
+            maxMomentumVelocity: 4, // Maximum velocity for momentum scrolling (pixels per frame)
+            momentumScaleFactor: 15, // Scale factor for initial momentum velocity
             ...options
         };
         
@@ -260,7 +262,12 @@ export class WorkItemManager {
     applyMomentumScrolling(initialVelocity) {
         if (!this.element) return;
         
-        let velocity = initialVelocity * 15; // Scale up for better effect
+        // Scale the velocity but cap it at the maximum value
+        let velocity = Math.min(
+            Math.abs(initialVelocity * this.options.momentumScaleFactor), 
+            this.options.maxMomentumVelocity
+        ) * Math.sign(initialVelocity);
+        
         let timestamp = Date.now();
         const friction = 0.95; // Friction coefficient (lower = more friction)
         
@@ -285,6 +292,28 @@ export class WorkItemManager {
         };
         
         this.momentumRAF = requestAnimationFrame(animate);
+    }
+    
+    /**
+     * Set the maximum momentum velocity
+     * @param {number} value - Maximum velocity value
+     * @returns {WorkItemManager} - For chaining
+     */
+    setMaxMomentumVelocity(value) {
+        this.options.maxMomentumVelocity = value;
+        console.log(`Maximum momentum velocity set to: ${value}`);
+        return this;
+    }
+    
+    /**
+     * Set the momentum scale factor
+     * @param {number} value - Scale factor for initial momentum
+     * @returns {WorkItemManager} - For chaining
+     */
+    setMomentumScaleFactor(value) {
+        this.options.momentumScaleFactor = value;
+        console.log(`Momentum scale factor set to: ${value}`);
+        return this;
     }
     
     /**

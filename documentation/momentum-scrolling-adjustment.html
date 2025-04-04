@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Gallery Momentum Scrolling Adjustment</title>
+    <style>
+        body {
+            font-family: 'Space Grotesk', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #000;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #333;
+            margin-top: 30px;
+        }
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #fffde7;
+            border-left: 4px solid #ffd600;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        .button {
+            display: inline-block;
+            background-color: #333;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Work Gallery Momentum Scrolling Adjustment</h1>
+    
+    <p>This document explains how to adjust the momentum scrolling behavior of the work gallery on mobile devices.</p>
+    
+    <div class="note">
+        <strong>Note:</strong> These adjustments primarily affect touch-based scrolling on mobile devices. Desktop scrolling behavior remains largely unchanged.
+    </div>
+    
+    <h2>Understanding the Parameters</h2>
+    
+    <p>The momentum scrolling behavior is controlled by two main parameters:</p>
+    
+    <table>
+        <tr>
+            <th>Parameter</th>
+            <th>Description</th>
+            <th>Default Value</th>
+        </tr>
+        <tr>
+            <td><code>maxMomentumVelocity</code></td>
+            <td>The maximum velocity (in pixels per frame) that the gallery can scroll, regardless of how quickly the user flicks. Lower values result in slower, more controlled scrolling.</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td><code>momentumScaleFactor</code></td>
+            <td>The factor by which the initial velocity is scaled. Higher values make the gallery more responsive to quick flicks, but can make it harder to control.</td>
+            <td>15</td>
+        </tr>
+    </table>
+    
+    <h2>How to Adjust the Settings</h2>
+    
+    <p>The website includes a global helper function that allows you to easily adjust these parameters from the browser console. Here's how to use it:</p>
+    
+    <ol>
+        <li>Open the website on your mobile device</li>
+        <li>Open the browser's developer tools (this varies by browser, but usually involves tapping a menu option and selecting "Developer Tools" or similar)</li>
+        <li>Navigate to the Console tab</li>
+        <li>Use the <code>adjustMomentumSettings</code> function as shown below</li>
+    </ol>
+    
+    <h3>Function Syntax</h3>
+    
+    <pre><code>adjustMomentumSettings(maxVelocity, scaleFactor);</code></pre>
+    
+    <p>Both parameters are optional. If you omit a parameter, its current value will be retained.</p>
+    
+    <h3>Examples</h3>
+    
+    <pre><code>// Set maximum velocity to 2 (slower, more controlled scrolling)
+adjustMomentumSettings(2);
+
+// Set scale factor to 10 (less responsive to quick flicks)
+adjustMomentumSettings(undefined, 10);
+
+// Set both parameters
+adjustMomentumSettings(3, 12);
+
+// Check current settings without changing them
+adjustMomentumSettings();</code></pre>
+    
+    <h2>Recommended Values to Try</h2>
+    
+    <p>Here are some recommended combinations to experiment with:</p>
+    
+    <table>
+        <tr>
+            <th>Use Case</th>
+            <th>maxMomentumVelocity</th>
+            <th>momentumScaleFactor</th>
+            <th>Code to Run</th>
+        </tr>
+        <tr>
+            <td>Very slow, controlled scrolling</td>
+            <td>1.5</td>
+            <td>10</td>
+            <td><code>adjustMomentumSettings(1.5, 10);</code></td>
+        </tr>
+        <tr>
+            <td>Moderate scrolling (default)</td>
+            <td>4</td>
+            <td>15</td>
+            <td><code>adjustMomentumSettings(4, 15);</code></td>
+        </tr>
+        <tr>
+            <td>Responsive but controlled</td>
+            <td>3</td>
+            <td>12</td>
+            <td><code>adjustMomentumSettings(3, 12);</code></td>
+        </tr>
+        <tr>
+            <td>More responsive</td>
+            <td>6</td>
+            <td>15</td>
+            <td><code>adjustMomentumSettings(6, 15);</code></td>
+        </tr>
+    </table>
+    
+    <h2>Making Permanent Changes</h2>
+    
+    <p>Once you've found settings that work well, you can make them permanent by updating the initialization in <code>js/main.js</code>:</p>
+    
+    <pre><code>const workItemManager = new WorkItemManager({
+    selector: '.work-grid',
+    edgeScrollEnabled: true,
+    edgeScrollThreshold: 150,
+    edgeScrollSpeed: 5,
+    hoverInteractionEnabled: true,
+    bounceAnimationEnabled: true,
+    maxMomentumVelocity: 3, // Your preferred value
+    momentumScaleFactor: 12 // Your preferred value
+});</code></pre>
+    
+    <div class="note">
+        <strong>Tip:</strong> Test on multiple devices if possible, as touch sensitivity can vary between different phones and tablets.
+    </div>
+    
+    <h2>Troubleshooting</h2>
+    
+    <p>If you encounter issues with the momentum scrolling:</p>
+    
+    <ul>
+        <li>Make sure you're testing on a touch-enabled device</li>
+        <li>Try refreshing the page after making changes</li>
+        <li>Check the console for any error messages</li>
+        <li>If the gallery becomes unresponsive, reset to defaults with <code>adjustMomentumSettings(4, 15);</code></li>
+    </ul>
+    
+    <p>For further assistance, contact the development team.</p>
+    
+    <a href="../index.html" class="button">Return to Website</a>
+</body>
+</html>
