@@ -4,6 +4,7 @@
 
 import { isAuthenticated } from './auth.js';
 import { PasswordModal } from './components/PasswordModal.js';
+import { workConfig } from './config.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize background effects
@@ -170,43 +171,127 @@ function initializeGallery() {
 function initializeNextProject() {
     const nextProjectLink = document.querySelector('.next-project-link');
     
-    if (nextProjectLink) {
-        // Check if the next project is an NDA project
-        const isNdaProject = nextProjectLink.hasAttribute('data-nda');
+    if (!nextProjectLink) return;
+    
+    // Get current project filename from URL
+    const currentPath = window.location.pathname;
+    const currentProjectFile = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    
+    // Find current project in workConfig
+    const projects = workConfig.projects;
+    let currentProjectIndex = -1;
+    
+    for (let i = 0; i < projects.length; i++) {
+        // Extract filename from project URL
+        const projectUrl = projects[i].projectUrl;
+        const projectFile = projectUrl.substring(projectUrl.lastIndexOf('/') + 1);
         
-        if (isNdaProject) {
-            // Get project ID
-            const projectId = nextProjectLink.getAttribute('data-project-id');
-            
-            // Add click handler to show password modal
-            nextProjectLink.addEventListener('click', (e) => {
-                // Prevent default navigation
-                e.preventDefault();
-                
-                // Check if already authenticated
-                if (isAuthenticated(projectId)) {
-                    // Allow navigation if authenticated
-                    window.location.href = nextProjectLink.href;
-                } else {
-                    // Create password modal
-                    const passwordModal = new PasswordModal({
-                        onAuthenticated: (authenticatedProjectId) => {
-                            // Also authenticate with the URL-based project ID to ensure compatibility
-                            const url = nextProjectLink.href;
-                            const urlProjectId = url.substring(url.lastIndexOf('/') + 1).replace('.html', '');
-                            if (authenticatedProjectId !== urlProjectId) {
-                                sessionStorage.setItem(`auth_${urlProjectId}`, 'true');
-                            }
-                            
-                            // Navigate to the next project after authentication
-                            window.location.href = nextProjectLink.href;
-                        }
-                    });
-                    
-                    // Show password modal
-                    passwordModal.show(projectId, nextProjectLink.href);
-                }
-            });
+        if (projectFile === currentProjectFile) {
+            currentProjectIndex = i;
+            break;
         }
+    }
+    
+    // If current project not found, exit
+    if (currentProjectIndex === -1) {
+        console.warn('Current project not found in workConfig');
+        return;
+    }
+    
+    // Find next non-NDA project
+    let nextProjectIndex = currentProjectIndex;
+    let nextProject = null;
+    let loopCount = 0;
+    
+    // Loop through projects until we find a non-NDA project or have checked all projects
+    while (loopCount < projects.length) {
+        // Move to next project, wrapping around to the beginning if needed
+        nextProjectIndex = (nextProjectIndex + 1) % projects.length;
+        
+        // Skip if it's the current project
+        if (nextProjectIndex === currentProjectIndex) {
+            loopCount++;
+            continue;
+        }
+        
+        const candidateProject = projects[nextProjectIndex];
+        
+        // If project is not NDA protected, use it
+        if (!candidateProject.isNDA) {
+            nextProject = candidateProject;
+            break;
+        }
+        
+        // If we've checked all projects and they're all NDA protected,
+        // use the next project even if it's NDA protected
+        loopCount++;
+        if (loopCount === projects.length - 1) {
+            nextProject = candidateProject;
+            break;
+        }
+    }
+    
+    // If no next project found, exit
+    if (!nextProject) {
+        console.warn('No next project found');
+        return;
+    }
+    
+    // Update next project link - ensure proper relative path
+    // The projectUrl in config is like "projects/aimi.html", but we're already in the projects directory
+    // So we need to extract just the filename part
+    const projectFile = nextProject.projectUrl.substring(nextProject.projectUrl.lastIndexOf('/') + 1);
+    nextProjectLink.href = projectFile;
+    
+    // Update next project image and title
+    const nextProjectImage = nextProjectLink.querySelector('img');
+    const nextProjectTitle = nextProjectLink.querySelector('h3');
+    
+    if (nextProjectImage) {
+        nextProjectImage.src = '../' + nextProject.imageSrc;
+        nextProjectImage.alt = nextProject.title;
+    }
+    
+    if (nextProjectTitle) {
+        nextProjectTitle.textContent = nextProject.title;
+    }
+    
+    // Add NDA protection if needed
+    if (nextProject.isNDA) {
+        // Extract project ID from URL (just the filename without extension)
+        const projectId = projectFile.replace('.html', '');
+        
+        // Add data attributes for NDA handling
+        nextProjectLink.setAttribute('data-nda', 'true');
+        nextProjectLink.setAttribute('data-project-id', projectId);
+        
+        // Add click handler to show password modal
+        nextProjectLink.addEventListener('click', (e) => {
+            // Prevent default navigation
+            e.preventDefault();
+            
+            // Check if already authenticated
+            if (isAuthenticated(projectId)) {
+                // Allow navigation if authenticated
+                window.location.href = nextProjectLink.href;
+            } else {
+                // Create password modal
+                const passwordModal = new PasswordModal({
+                    onAuthenticated: (authenticatedProjectId) => {
+                        // Also authenticate with the URL-based project ID to ensure compatibility
+                        const urlProjectId = nextProjectLink.href.replace('.html', '');
+                        if (authenticatedProjectId !== urlProjectId) {
+                            sessionStorage.setItem(`auth_${urlProjectId}`, 'true');
+                        }
+                        
+                        // Navigate to the next project after authentication
+                        window.location.href = nextProjectLink.href;
+                    }
+                });
+                
+                // Show password modal
+                passwordModal.show(projectId, nextProjectLink.href);
+            }
+        });
     }
 }
