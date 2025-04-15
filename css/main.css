@@ -104,6 +104,12 @@ body {
     padding: 0 var(--spacing-lg);
 }
 
+/* Full-width container for edge-to-edge sections */
+.container.full-width {
+    max-width: 100%;
+    padding: 0;
+}
+
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
