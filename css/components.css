@@ -314,17 +314,14 @@
 
 /* Remove the spacer since we're using relative positioning now */
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-.work-grid::-webkit-scrollbar {
-    display: none;
-}
+
 
 /* Make work items clickable with new oval design - now 15% larger than previous size */
 .work-item-link {
     display: block;
     text-decoration: none;
     color: var(--text);
-    min-width: 736px; /* Increased by 15% from 640px */
+    min-width: 560px; /* Increased by 15% from 640px */
     height: 460px; /* Increased by 15% from 400px */
     margin-right: -170px; /* Adjusted for slight overlap */
     transition: all 0.5s ease-out; /* Faster transition to improve responsiveness */
@@ -364,9 +361,9 @@
     display: block;
     text-decoration: none;
     color: var(--text);
-    min-width: 736px; /* Increased by 15% from 640px */
+    min-width: 560px; /* Increased by 15% from 640px */
     height: 460px; /* Increased by 15% from 400px */
-    margin-right: -170px; /* Adjusted for slight overlap */
+    margin-right: -70px; /* Adjusted for slight overlap */
     transition: all 0.5s ease-out; /* Faster transition to improve responsiveness */
     position: relative;
     z-index: 1;
