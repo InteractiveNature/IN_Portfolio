@@ -221,21 +221,20 @@ a {
 }
 
 /* Background grid */
-/*.bg-lines {
+.bg-lines {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 0; 
+    z-index: 0; /* Increased from -1 to ensure visibility on all devices */
     opacity: 0.2;
     pointer-events: none;
 }
 
-
 .bg-lines line {
     stroke: var(--text);
-}*/
+}
 
 /* Header and Navigation */
 header {

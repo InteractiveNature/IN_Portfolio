@@ -151,10 +151,10 @@
     }
     
     /* Enhance background grid visibility on mobile */
-    /*.bg-lines {
+    .bg-lines {
         opacity: 0.3; /* Slightly higher opacity for better visibility */
         z-index: 0; /* Ensure it's above other elements */
-    }/*
+    }
     
 /* Maintain horizontal layout for mobile but with improved sizing and interaction */
 .work-grid {
