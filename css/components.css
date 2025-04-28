@@ -129,46 +129,30 @@
     margin: 0 auto;
 }
 
-/* Services Section - Updated for combined layout */
+/* Services Section */
+.services {
+    padding: var(--spacing-xxl) 0;
+}
+
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--spacing-lg);
-    margin-top: var(--spacing-lg);
-}
-
-/* Services header styling for the combined layout */
-.combined-gallery-services .section-header {
-    margin-bottom: var(--spacing-md);
-}
-
-.combined-gallery-services .section-header h2 {
-    font-size: var(--font-size-2xl);
-    margin-bottom: var(--spacing-sm);
-    color: var(--text); /* White text color */
-    display: inline-block;
-}
-
-.combined-gallery-services .section-header p {
-    font-size: var(--font-size-md);
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 .service-card {
-    background-color: rgba(255, 255, 255, 0.05);
-    padding: var(--spacing-md);
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: var(--spacing-lg);
     border-radius: var(--border-radius);
     transition: var(--transition-normal);
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .service-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    background-color: rgba(255, 255, 255, 0.08);
+    transform: translateY(-10px);
+    background-color: rgba(255, 255, 255, 0.05);
     border-image: linear-gradient(
         90deg, 
         var(--gradient-color-1), 
@@ -177,11 +161,10 @@
         var(--gradient-color-4), 
         var(--gradient-color-5)
     ) 1;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .service-card h3 {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl);
     margin-bottom: var(--spacing-sm);
     position: relative;
 }
@@ -206,7 +189,6 @@
 .service-card p {
     opacity: 0.8;
     margin-bottom: var(--spacing-md);
-    font-size: var(--font-size-sm);
 }
 
 .service-card a {
@@ -238,28 +220,11 @@
     transform: translateX(5px);
 }
 
-/* Add responsive adjustments for services in the combined layout */
-@media (max-width: 768px) {
-    .services-grid {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-md);
-    }
-    
-    .service-card {
-        padding: var(--spacing-sm);
-    }
-    
-    .service-card h3 {
-        font-size: var(--font-size-md);
-    }
-}
-
-/* Work/Portfolio Section - Adjusted to account for combined section above */
+/* Work/Portfolio Section */
 .work {
-    padding: var(--spacing-md) 0 var(--spacing-lg) 0;
-    position: relative;
-    overflow: hidden;
-    margin-top: 0; /* Remove top margin since we have the combined section above */
+    padding: var(--spacing-md) 0 var(--spacing-lg) 0; /* Reduced bottom padding to bring clients section closer */
+    position: relative; /* Ensure proper positioning context */
+    overflow: hidden; /* Ensure content doesn't cause horizontal scrolling */
 }
 
 /* Mobile scroll indicator */

@@ -9,14 +9,12 @@ import { VideoBackground } from './effects/video-background.js';
 import { WorkItemManager } from './components/WorkItemManager.js';
 import { ServicesManager } from './components/ServicesManager.js';
 import { ClientsManager } from './components/ClientsManager.js';
-import { ProjectGalleryManager } from './components/ProjectGalleryManager.js';
 import { ThemeManager } from './themes.js';
 import { 
     servicesConfig, 
     workConfig, 
     clientsConfig, 
-    effectsConfig,
-    galleryConfig
+    effectsConfig
 } from './config.js';
 import { PasswordModal } from './components/PasswordModal.js';
 
@@ -49,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Initialize components
-    initializeProjectGallery();
     initializeServices();
     initializeWorkItems();
     initializeClientLogos();
@@ -58,94 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add scroll animations
     addScrollAnimations();
 });
-
-/**
- * Initialize project gallery section
- */
-function initializeProjectGallery() {
-    const projectGalleryManager = new ProjectGalleryManager({
-        selector: '.project-gallery-grid',
-        visibleItems: 20, // Updated to match our 5-row brick wall layout with 20 areas (a-t)
-        minDisplayTime: 10000, // Minimum time (ms) an item stays visible (10 seconds)
-        maxDisplayTime: 30000, // Maximum time (ms) an item stays visible (30 seconds)
-        transitionDuration: 1000 // Duration of fade transition in ms
-    });
-    
-    // Collect all projects from workConfig and galleryConfig
-    let galleryProjects = [];
-    
-    // Add projects from workConfig
-    workConfig.projects.forEach(project => {
-        // Create a copy of the project
-        const galleryProject = { ...project };
-        
-        // Add video source if available in galleryConfig
-        const videoConfig = galleryConfig.videoSources.find(v => 
-            v.projectId === project.title.toLowerCase().replace(/\s+/g, '-'));
-        if (videoConfig) {
-            galleryProject.videoSrc = videoConfig.videoSrc;
-        }
-        
-        galleryProjects.push(galleryProject);
-    });
-    
-    // Add additional projects from galleryConfig.imageSources and videoSources
-    // First, collect all unique projectIds from galleryConfig
-    const existingProjectIds = new Set(galleryProjects.map(p => 
-        p.title.toLowerCase().replace(/\s+/g, '-')));
-    
-    const uniqueProjectIds = new Set();
-    
-    // Add video sources
-    galleryConfig.videoSources.forEach(source => {
-        uniqueProjectIds.add(source.projectId);
-    });
-    
-    // Add image sources if they exist
-    if (galleryConfig.imageSources) {
-        galleryConfig.imageSources.forEach(source => {
-            uniqueProjectIds.add(source.projectId);
-        });
-    }
-    
-    // Create projects for any projectIds that don't exist in workConfig
-    uniqueProjectIds.forEach(projectId => {
-        if (!existingProjectIds.has(projectId)) {
-            // Format the project ID as a title
-            const title = projectId
-                .split('-')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
-            
-            // Find a video source if available
-            const videoSource = galleryConfig.videoSources.find(v => v.projectId === projectId);
-            
-            // Find an image source if available
-            const imageSource = galleryConfig.imageSources ? 
-                galleryConfig.imageSources.find(i => i.projectId === projectId) : null;
-            
-            // Only add if we have either a video or image source
-            if (videoSource || imageSource) {
-                galleryProjects.push({
-                    title: title,
-                    description: `${title} Project`,
-                    imageSrc: imageSource ? imageSource.imageSrc : null,
-                    imageAlt: title,
-                    videoSrc: videoSource ? videoSource.videoSrc : null,
-                    projectUrl: '#',
-                    id: projectId
-                });
-            }
-        }
-    });
-    
-    // Set projects and initialize
-    projectGalleryManager.setProjects(galleryProjects);
-    projectGalleryManager.init();
-    
-    // Expose to window for debugging
-    window.projectGalleryManager = projectGalleryManager;
-}
 
 /**
  * Add theme selector to the specified container
@@ -201,12 +110,6 @@ function initializeServices() {
     
     // Initialize event listeners and animations
     servicesManager.init();
-    
-    // Add ID to services container for navigation
-    const servicesContainer = document.querySelector('.services-container');
-    if (servicesContainer) {
-        servicesContainer.id = 'services';
-    }
 }
 
 /**
