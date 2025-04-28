@@ -82,25 +82,11 @@ export const workConfig = {
             projectUrl: 'projects/fusebox.html'
         },
         {
-            title: 'Audio Reactive Immserive Lighting Installation',
-            description: 'Design, Installation, Audio Reactive Lighting',
-            imageSrc: 'assets/images/portfolio/fullframe2.jpg',
-            imageAlt: 'Audio Reactive Immserive Lighting Installation',
-            projectUrl: 'projects/siesmic.html'
-        },
-        {
             title: 'Interactive Fortune Telling Experience',
             description: 'Interactive Experience Development and Fabrication for Event',
             imageSrc: 'assets/images/portfolio/zoltar.jpg',
             imageAlt: 'Custom Interactive Experience and Fabrication for Event',
             projectUrl: 'projects/discountfortunes.html'
-        },
-        {
-            title: 'AIMI',
-            description: 'Technical Drafting, 3D Rendering, Previsualization',
-            imageSrc: 'assets/images/portfolio/MainSpaceRender.png',
-            imageAlt: 'AIMI',
-            projectUrl: 'projects/aimi.html'
         },
         {
             title: 'Interactive Digital Art',
@@ -118,6 +104,13 @@ export const workConfig = {
             projectUrl: 'projects/fimfo.html'
         },
         {
+            title: 'Audio Reactive Immserive Lighting Installation',
+            description: 'Design, Installation, Audio Reactive Lighting',
+            imageSrc: 'assets/images/portfolio/fullframe2.jpg',
+            imageAlt: 'Audio Reactive Immserive Lighting Installation',
+            projectUrl: 'projects/siesmic.html'
+        },
+        {
             title: 'Little Mermaid Projection',
             description: 'Projection mapping and content for immersive theatrical production',
             imageSrc: 'assets/images/portfolio/LittleMermaid.jpg',
@@ -127,7 +120,7 @@ export const workConfig = {
         {
             title: 'VR / Virtual Production Mineshaft Experience',
             description: 'Immersive digital environment for VR and virtual production set',
-            imageSrc: 'assets/images/portfolio/MineVr.png',
+            imageSrc: 'assets/images/portfolio/explosion.jpg',
             imageAlt: 'Mineshaft Digital Environment',
             projectUrl: 'projects/virtualproducion_vr_cave.html',
             isNDA: true // NDA protected project
@@ -159,10 +152,17 @@ export const workConfig = {
         {
             title: 'Interactive Living Painting',
             description: 'R&D Living Painting Project',
-            imageSrc: 'assets/images/portfolio/backdrop.jpg',
+            imageSrc: 'assets/images/portfolio/sleepingDumbledore2.jpg',
             imageAlt: 'Living Painting',
             projectUrl: 'projects/interactiveart_wb.html',
             isNDA: true
+        },
+        {
+            title: 'AIMI',
+            description: 'Technical Drafting, 3D Rendering, Previsualization',
+            imageSrc: 'assets/images/portfolio/MainSpaceRender.png',
+            imageAlt: 'AIMI',
+            projectUrl: 'projects/aimi.html'
         },
         {
             title: 'Datura',
